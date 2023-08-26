@@ -1,0 +1,1 @@
+export type measure = 'sm' | 'md' | 'lg';

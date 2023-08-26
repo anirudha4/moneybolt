@@ -1,0 +1,35 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: cd apps/client && yarn install --frozen-lockfile && yarn build
+      - name: Copy build to server
+        run: cp -r apps/client/dist/* apps/server/public
+      - name: run prisma migrations
+        run: cd apps/server && npx prisma migrate deploy
+        env: 
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      - name: Install Railway
+        run: npm i -g @railway/cli
+      - name: Deploy
+        run: railway up
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          

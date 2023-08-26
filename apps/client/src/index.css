@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: hsl(0 0% 100%);
+        --foreground: hsl(222.2 47.4% 11.2%);
+
+        --border: hsl(214.3 31.8% 91.4%);
+        --border-hover: hsl(214, 21%, 59%);
+
+        --muted: hsl(210 40% 96.1%);
+        --muted-foreground: hsl(215.4 16.3% 46.9%);
+
+        --primary: #2563EB;
+        --primary-dark: #1953d2;
+        --primary-foreground: #f0f5ff;
+
+        --secondary: hsl(223, 33%, 96%);
+        --secondary-foreground: hsl(216deg 45.77% 6.48%);
+
+        --accent: hsl(210, 25%, 91%);
+        --accent-foreground: hsl(222.2 47.4% 11.2%);
+
+        --destructive: hsl(0, 100%, 67%);
+        --destructive-foreground: hsl(0, 100%, 98%);
+
+        --radius: 0.5rem;
+    }
+
+    .dark {
+        --background: hsl(224 71% 4%);
+        --foreground: hsl(213 31% 91%);
+
+        --muted: hsl(223 47% 11%);
+        --muted-foreground: hsl(215.4 16.3% 56.9%);
+
+        --border: hsl(216 34% 17%);
+        --border-hover: hsl(217, 18%, 47%);
+
+        --primary: #3730a3;
+        --primary-foreground: #e2fffc;
+
+        --secondary: hsl(216, 38%, 10%);
+        --secondary-foreground: hsl(210 40% 98%);
+
+        --accent: hsl(216 34% 17%);
+        --accent-foreground: hsl(210 40% 98%);
+
+        --destructive: hsl(0, 100%, 98%);
+        --destructive-foreground: hsl(0, 100%, 73%);
+
+        --radius: .5rem;
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground text-sm;
+        font-feature-settings: "rlig" 1, "calt" 1;
+    }
+}
+
+.text-display {
+    font-family: 'Righteous', cursive;
+}

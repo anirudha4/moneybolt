@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user_account {
+  id             String  @id() @default(uuid())
+  name           String
+  email          String
+  password       String
+  avatarUrl      String?
+  organizationId String
+
+  // relations
+  organization organization @relation(fields: [organizationId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([id, organizationId])
+}
+
+// organizations
+model organization {
+  id                   String  @id() @default(uuid())
+  name                 String  @unique
+  parentOrganizationId String?
+
+  parentOrganization organization?  @relation("parentOrganization", fields: [parentOrganizationId], references: [id])
+  childOrganization  organization[] @relation("parentOrganization")
+
+  user_account user_account[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// access_tokens
+model access_token {
+  id     String  @id() @default(uuid())
+  token  String
+  userId String
+  ip     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
