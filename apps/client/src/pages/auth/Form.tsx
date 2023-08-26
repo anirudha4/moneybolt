@@ -45,7 +45,6 @@ const Form = ({ isLogin }: Props) => {
         if (isLogin) {
             loginWithEmailAndPassword(values)
         } else {
-            console.log({ values });
             signupWithEmailAndPassword(values)
         }
     }

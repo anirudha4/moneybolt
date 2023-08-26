@@ -42,8 +42,9 @@
         --border: hsl(216 34% 17%);
         --border-hover: hsl(217, 18%, 47%);
 
-        --primary: #3730a3;
-        --primary-foreground: #e2fffc;
+        --primary: dodgerblue;
+        --primary-dark: rgb(0, 103, 205);
+        --primary-foreground: rgb(239, 247, 255);
 
         --secondary: hsl(216, 38%, 10%);
         --secondary-foreground: hsl(210 40% 98%);
@@ -71,4 +72,11 @@
 
 .text-display {
     font-family: 'Righteous', cursive;
+}
+/* app-layout */
+.app-grid {
+    @apply bg-background text-foreground text-sm;
+    display: grid;
+    height: 100vh;
+    transition: grid-template-columns .2s ease-in-out;
 }

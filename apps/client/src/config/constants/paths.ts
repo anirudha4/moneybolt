@@ -10,7 +10,12 @@ export const PATHS = {
     PRICING: '#pricing',
     // protected routes
     ACCOUNT: '/accounts',
-    DASHBOARD: '/app'
+    APP: '/app',
+    DASHBOARD: '/app/dashboard',
+    TRANSACTIONS: '/app/transactions',
+    INVOICES: '/app/invoices',
+    INTEGRATIONS: '/app/integrations',
+    CONFIGURE: '/app/configurations',
 };
 
 export const PRODUCT_LINKS = [

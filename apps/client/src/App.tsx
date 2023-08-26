@@ -5,6 +5,9 @@ import { PATHS } from "@config/constants/paths";
 import { Auth } from "@pages/auth";
 import { Home, Layout } from "@pages/home";
 import { Dashboard, DashboardLayout } from "@pages/dashboard";
+import Transactions from "@pages/transactions";
+import Invoices from "@pages/invoices";
+import Integrations from "@pages/integrations";
 
 const App = () => {
   return (
@@ -13,8 +16,11 @@ const App = () => {
         <Route index element={<Home />} />
       </Route>
       <Route path={PATHS.AUTH} element={<Auth />} />
-      <Route path={PATHS.DASHBOARD} element={<DashboardLayout />}>
-        <Route index element={<Dashboard />} />
+      <Route path={PATHS.APP} element={<DashboardLayout />}>
+        <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
+        <Route path={PATHS.TRANSACTIONS} element={<Transactions />} />
+        <Route path={PATHS.INVOICES} element={<Invoices />} />
+        <Route path={PATHS.INTEGRATIONS} element={<Integrations />} />
       </Route>
     </Routes>
   )

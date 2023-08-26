@@ -13,7 +13,7 @@ const LOGO_SIZE_MAP = {
 }
 const Logo = ({ size = 'md', full = true }: Props) => {
     return (
-        <NavLink to={PATHS.HOME} className="flex items-center gap-1">
+        <NavLink to={PATHS.DASHBOARD} className="flex items-center gap-1">
             <BiSolidBolt size={LOGO_SIZE_MAP[size]} className='text-primary' />
             {full && <div className="text-display font-extrabold text-xl text-primary tracking-wider">
                 moneybolt

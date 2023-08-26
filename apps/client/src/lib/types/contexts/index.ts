@@ -11,3 +11,10 @@ export type ContextType = {
     logoutMutation: () => void,
     clearError: () => void
 }
+
+export type UIContextType = {
+    isSidebarOpen: boolean,
+    toggleSidebar: () => void,
+    closeSidebar: () => void,
+    openSidebar: () => void
+}

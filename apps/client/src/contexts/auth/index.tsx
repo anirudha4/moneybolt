@@ -11,7 +11,11 @@ export type UserType = {
     name: string,
     email: string,
     avatarUrl?: string
-    organizationId?: string
+    organizationId?: string,
+    organization?: {
+        id: string,
+        name: string
+    }
 };
 
 type Props = {
@@ -65,7 +69,6 @@ const AuthProvider = ({ children }: Props) => {
     const { mutate: loginMutation, isLoading: isLoggingIn } = useMutation('login', login, {
         onSettled(response) {
             const data = response?.data?.user
-            console.log(data);
 
             if (data) {
                 setUser(data);

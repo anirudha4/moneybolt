@@ -16,10 +16,11 @@ import { AuthService } from "./auth.service";
 import { RequestWithUserDto } from "src/users/users.dto";
 import { Response } from "express";
 import { AuthGuard } from "./auth.guard";
+import { UsersService } from "src/users/users.service";
 
 @Controller("auth")
 export class AuthController {
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private userService: UsersService) { }
   @Post("signup")
   async signup(@Body() credentials: AuthDto) {
     try {
@@ -42,7 +43,8 @@ export class AuthController {
   @Get('me')
   @UseGuards(AuthGuard)
   async me(@Request() req: RequestWithUserDto) {
-    return req.user
+    const user = await this.userService.findUserById({ id: req.user.id });
+    return user;
   }
 
   @Delete('logout')

@@ -7,8 +7,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import App from './App.tsx'
 // assets
 import './index.css';
+import { AuthProvider, UIProvider } from '@contexts';
 
-import AuthProvider from '@contexts/auth';
 
 const queryClient = new QueryClient()
 
@@ -17,7 +17,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <App />
+          <UIProvider>
+            <App />
+          </UIProvider>
         </AuthProvider>
         <ReactQueryDevtools />
       </QueryClientProvider>
