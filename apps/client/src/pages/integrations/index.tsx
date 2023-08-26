@@ -1,5 +1,5 @@
 type Props = {}
-const Integrations = (props: Props) => {
+const Integrations = ({ }: Props) => {
     return (
         <div>Integrations</div>
     )

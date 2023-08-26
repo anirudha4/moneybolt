@@ -1,5 +1,5 @@
 type Props = {}
-const Invoices = (props: Props) => {
+const Invoices = ({}: Props) => {
     return (
         <div>Invoices</div>
     )

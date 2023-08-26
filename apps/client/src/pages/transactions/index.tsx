@@ -1,5 +1,5 @@
 type Props = {}
-const Transactions = (props: Props) => {
+const Transactions = ({ }: Props) => {
     return (
         <div>Transactions</div>
     )
