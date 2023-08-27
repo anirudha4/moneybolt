@@ -20,7 +20,7 @@ const button = cva([
             disabled: ['bg-slate-200 text-slate-400'],
         },
         size: {
-            sm: ['md:h-8 h-7'],
+            sm: ['md:h-8 h-7 px-3'],
             md: ['md:h-10 h-9'],
             lg: ['md:h-12 h-11'],
         },

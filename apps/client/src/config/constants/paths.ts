@@ -10,6 +10,7 @@ export const PATHS = {
     PRICING: '#pricing',
     // protected routes
     ACCOUNT: '/accounts',
+    WORKSPACE: '/preferences',
     APP: '/app',
     DASHBOARD: '/app/dashboard',
     TRANSACTIONS: '/app/transactions',

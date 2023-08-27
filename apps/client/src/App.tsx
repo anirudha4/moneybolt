@@ -8,6 +8,7 @@ import { Dashboard, DashboardLayout } from "@pages/dashboard";
 import Transactions from "@pages/transactions";
 import Invoices from "@pages/invoices";
 import Integrations from "@pages/integrations";
+import Configurations from "@pages/configurations";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path={PATHS.TRANSACTIONS} element={<Transactions />} />
         <Route path={PATHS.INVOICES} element={<Invoices />} />
         <Route path={PATHS.INTEGRATIONS} element={<Integrations />} />
+        <Route path={PATHS.CONFIGURE} element={<Configurations />} />
       </Route>
     </Routes>
   )

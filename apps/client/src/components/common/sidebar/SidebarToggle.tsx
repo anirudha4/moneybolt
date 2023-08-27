@@ -1,4 +1,4 @@
-import useUI from "@hooks/useUI";
+import { useUI } from "@hooks";
 import { mergeClasses } from "@utils";
 import classNames from "classnames";
 import { TbChevronLeft } from "react-icons/tb";

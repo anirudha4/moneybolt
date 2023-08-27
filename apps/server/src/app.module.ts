@@ -7,6 +7,7 @@ import { UsersModule } from "./users/users.module";
 import { AccessTokensModule } from "./auth/access-tokens/access-token.module";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
+import { TransactionsModule } from './transactions/transactions.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { join } from "path";
     AuthModule,
     UsersModule,
     AccessTokensModule,
+    TransactionsModule,
   ],
   controllers: [],
   providers: [],
