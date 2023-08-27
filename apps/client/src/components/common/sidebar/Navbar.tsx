@@ -5,10 +5,8 @@ import { mergeClasses } from "@utils";
 import classNames from "classnames";
 import React from "react";
 import { BiUser } from "react-icons/bi";
-import { FiLink2 } from "react-icons/fi";
 import { LuSettings2, LuZap } from "react-icons/lu";
-import { RxCardStackMinus } from "react-icons/rx";
-import { TbFileInvoice, TbLayoutDashboard } from "react-icons/tb";
+import { TbLayoutDashboard } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import { IntegrationIcon, InvoiceIcon, TransactionIcon } from "../icons";
 

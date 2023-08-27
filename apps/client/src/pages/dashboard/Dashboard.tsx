@@ -6,6 +6,7 @@ import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
 import { TbWallet } from "react-icons/tb";
 import Transactions from "@components/transactions";
+import { Popover, Transition } from "@headlessui/react";
 
 const Dashboard = () => {
     return (
@@ -39,10 +40,12 @@ const Dashboard = () => {
                 className="col-span-2 row-span-3"
                 title="Recent Transactions"
                 rightAction={(
-                    <Button size="sm">
-                        Create Transaction
-                        <TransactionIcon size={16} />
-                    </Button>
+                    <AddTransaction>
+                        <Button size="sm">
+                            Create Transaction
+                            <TransactionIcon size={16} />
+                        </Button>
+                    </AddTransaction>
                 )}
             >
                 <Transactions showRecent />
@@ -72,5 +75,35 @@ export const Card = ({ children, className, title, rightAction }: { children: Re
                 {children}
             </div>
         </div>
+    )
+}
+
+export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
+    return (
+        <Popover>
+            <Popover.Button as={React.Fragment}>
+                {children}
+            </Popover.Button>
+            <Transition
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-100 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+            >
+                <Popover.Panel className={classNames(
+                    "absolute z-10 w-[350px] right-0 top-2 bg-background",
+                    "rounded-md shadow-lg border"
+                )}>
+                    <div className="px-4 min-h-[60px] border-b flex items-center justify-between">
+                        <span className="text-secondary-foreground text-md font-medium">
+                            Add Transaction
+                        </span>
+                    </div>
+                    
+                </Popover.Panel>
+            </Transition>
+        </Popover>
     )
 }

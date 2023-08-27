@@ -1,5 +1,5 @@
 type Props = {}
-const RecentTransaction = (props: Props) => {
+const RecentTransaction = ({ }: Props) => {
     return (
         <div>RecentTransaction</div>
     )
