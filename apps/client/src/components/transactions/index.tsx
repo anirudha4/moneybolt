@@ -6,7 +6,6 @@ type Props = {
 const Transactions = ({ }: Props) => {
     const { transactions } = useTransaction()
     console.log(transactions);
-
     return (
         <div>Transactions</div>
     )

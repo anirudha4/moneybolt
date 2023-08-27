@@ -1,16 +1,16 @@
 import React from "react";
 import classNames from "classnames";
+import { TbWallet } from "react-icons/tb";
 
 import { InvoiceIcon, TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
-import { TbWallet } from "react-icons/tb";
 import Transactions from "@components/transactions";
-import { Popover, Transition } from "@headlessui/react";
+import { AddTransaction } from "@components/transactions/AddTransaction";
 
 const Dashboard = () => {
     return (
-        <div className="h-full grid grid-cols-4 gap-4 grid-rows-4">
+        <div className="h-full grid grid-cols-4 gap-4" style={{ gridTemplateRows: '200px 1fr 1fr' }}>
             <Card
                 className="col-span-2 row-span-1"
                 title="Statistics"
@@ -61,7 +61,7 @@ export const Card = ({ children, className, title, rightAction }: { children: Re
     return (
         <div
             className={classNames(
-                "bg-background border rounded flex flex-col",
+                "bg-background border rounded flex flex-col h-full",
                 className
             )}
         >
@@ -78,32 +78,3 @@ export const Card = ({ children, className, title, rightAction }: { children: Re
     )
 }
 
-export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <Popover>
-            <Popover.Button as={React.Fragment}>
-                {children}
-            </Popover.Button>
-            <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-100 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
-            >
-                <Popover.Panel className={classNames(
-                    "absolute z-10 w-[350px] right-0 top-2 bg-background",
-                    "rounded-md shadow-lg border"
-                )}>
-                    <div className="px-4 min-h-[60px] border-b flex items-center justify-between">
-                        <span className="text-secondary-foreground text-md font-medium">
-                            Add Transaction
-                        </span>
-                    </div>
-                    
-                </Popover.Panel>
-            </Transition>
-        </Popover>
-    )
-}
