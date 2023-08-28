@@ -16,7 +16,14 @@ const USER_SELECT = {
       id: true,
       name: true,
       updatedAt: true,
-      createdAt: true
+      createdAt: true,
+      category: {
+        select: {
+          id: true,
+          name: true,
+          color: true
+        }
+      }
     }
   }
 }

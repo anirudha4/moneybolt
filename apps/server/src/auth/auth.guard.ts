@@ -9,7 +9,6 @@ import { CookieOptions, Response } from "express";
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
-    private userService: UsersService,
     private accessTokenService: AccessTokensService
   ) {}
 

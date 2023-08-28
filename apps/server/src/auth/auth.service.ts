@@ -10,6 +10,9 @@ import { AccessTokensService } from "./access-tokens/access-tokens.service";
 import { accessTokenDto } from "./access-tokens/dto/access-token.dto";
 import { RequestWithUserDto } from "src/users/users.dto";
 import { user_account } from "@prisma/client";
+import { CategoriesService } from "src/categories/categories.service";
+import { CATEGORIES } from "src/utils/constants";
+import { OrganizationsService } from "src/organizations/organizations.service";
 
 @Injectable()
 export class AuthService {
@@ -24,14 +27,23 @@ export class AuthService {
                 email: credentials.email,
                 password: await this.hashPassword(credentials.password),
                 name: credentials.name,
-                avatarUrl: "https://cdn.dribbble.com/users/7433572/screenshots/18243081/media/06480820669554c7fc54c5386df75140.jpg?compress=1&resize=1600x1200&vertical=center",
                 organization: {
                     create: {
                         name: credentials.email.split("@")[0],
+                        category: {
+                            createMany: {
+                                data: CATEGORIES.map((category) => {
+                                    return {
+                                        ...category
+                                    };
+                                })
+                            }
+                        },
                     },
-                },
-            },
+                }
+            }
         });
+
         return { user };
     }
 

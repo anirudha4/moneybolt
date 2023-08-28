@@ -40,10 +40,10 @@ model organization {
   user_account user_account[]
   transaction  transaction[]
   tag          tag[]
+  category     category[]
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  category  category[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // access_tokens

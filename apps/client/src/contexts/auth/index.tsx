@@ -2,6 +2,7 @@ import Splash from "@components/common/Splash";
 import { PATHS } from "@config/constants/paths";
 import { getUser, login, logout, signup } from "@lib/auth";
 import { ContextType } from "@lib/types/contexts";
+import { Category } from "@lib/types/resource-types";
 import { isAxiosError } from "axios";
 import { ReactNode, createContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -15,7 +16,8 @@ export type UserType = {
     organization?: {
         id: string,
         name: string
-    }
+    },
+    categories?: Category[]
 };
 
 type Props = {
@@ -30,7 +32,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const [user, setUser] = useState<UserType | null>(null);
     const [error, setError] = useState<string | null>(null);
-
+    
     // setters
     const clearError = () => setError(null);
 
@@ -38,7 +40,12 @@ const AuthProvider = ({ children }: Props) => {
     const { isLoading } = useQuery('auth/me', getUser, {
         onSettled(response) {
             if (response?.data) {
-                setUser(response?.data)
+                const { organization: { category, ...organization }, ...user } = response?.data;
+                setUser({
+                    ...user,
+                    categories: category,
+                    organization
+                })
             }
         },
         retry: false,
