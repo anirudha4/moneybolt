@@ -5,8 +5,8 @@ import { TbWallet } from "react-icons/tb";
 import { InvoiceIcon, TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
-import Transactions from "@components/transactions";
 import { AddTransaction } from "@components/transactions/AddTransaction";
+import RecentTransaction from "@components/dashboard/RecentTransaction";
 
 const Dashboard = () => {
     return (
@@ -48,7 +48,7 @@ const Dashboard = () => {
                     </AddTransaction>
                 )}
             >
-                <Transactions showRecent />
+                <RecentTransaction />
             </Card>
             <Card title="Integrations" className="row-span-2 col-span-2">
             </Card>
@@ -71,9 +71,7 @@ export const Card = ({ children, className, title, rightAction }: { children: Re
                 </span>
                 {rightAction}
             </div>}
-            <div className="p-2 flex-1">
-                {children}
-            </div>
+            {children}
         </div>
     )
 }

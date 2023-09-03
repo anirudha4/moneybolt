@@ -59,12 +59,14 @@ model access_token {
 
 model transaction {
   id             String   @id() @default(uuid())
+  name           String
   userId         String
   organizationId String
   amount         Float
   description    String?
   type           String
   date           DateTime
+  categoryId     String?
 
   // relations
   user_account user_account @relation(fields: [userId], references: [id])
@@ -72,9 +74,8 @@ model transaction {
   tag          tag[]
   category     category?    @relation(fields: [categoryId], references: [id])
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  categoryId String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model tag {

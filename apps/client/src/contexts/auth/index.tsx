@@ -13,11 +13,11 @@ export type UserType = {
     email: string,
     avatarUrl?: string
     organizationId?: string,
-    organization?: {
+    organization: {
         id: string,
         name: string
     },
-    categories?: Category[]
+    categories: Category[]
 };
 
 type Props = {
@@ -32,7 +32,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const [user, setUser] = useState<UserType | null>(null);
     const [error, setError] = useState<string | null>(null);
-    
+
     // setters
     const clearError = () => setError(null);
 

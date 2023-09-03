@@ -15,7 +15,7 @@ export class CreateTransactionDto {
     type: string;
 
     @IsNotEmpty()
-    category: string;
+    categoryId: string;
 
     @IsNotEmpty()
     date: string

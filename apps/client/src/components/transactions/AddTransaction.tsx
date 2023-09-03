@@ -1,9 +1,9 @@
 import { Button, Field, NumberField } from "@components/custom";
 import Popup from "@components/custom/Popup";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useAuth, useTransactions } from "@hooks";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { TbBolt } from "react-icons/tb";
 import { z } from "zod";
 
 export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
@@ -14,16 +14,6 @@ export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
                     <div className="text-secondary-foreground text-md font-medium">
                         Add Transaction
                     </div>
-                    <Popup positionClasses="left-[110%] bottom-[2px]" trigger={(
-                        <div className="cursor-pointer px-3 h-6 font-medium text-xs flex gap-2 items-center bg-secondary rounded-full text-primary">
-                            <TbBolt size={15} />
-                            Quick Add
-                        </div>
-                    )}>
-                        <div className="p-3">
-                            By using <span className="text-primary">Quick Add</span> you can add a transaction by just entering the <span className="text-primary">Name</span> and <span className="text-primary">Amount</span> of the transaction. The transaciton will get added with<span className="text-primary"> today's date</span> and the <span className="text-primary">default category</span>.
-                        </div>
-                    </Popup>
                 </div>
             </div>
             <TransactionForm />
@@ -34,7 +24,7 @@ export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
 const transactionSchema = z.object({
     name: z.string().min(3),
     amount: z.number().positive(),
-    type: z.string().default('expense'),
+    type: z.enum(['expense', 'income']).default('expense'),
     categoryId: z.string().default('others'),
     tagId: z.string().optional(),
     date: z.date().default(new Date()),
@@ -44,6 +34,8 @@ const transactionSchema = z.object({
 type transactionFormValues = z.infer<typeof transactionSchema>
 
 export const TransactionForm = () => {
+    const { createTransaction } = useTransactions({});
+    const { user } = useAuth();
     const {
         register,
         handleSubmit,
@@ -51,10 +43,14 @@ export const TransactionForm = () => {
     } = useForm<transactionFormValues>({
         resolver: zodResolver(transactionSchema)
     });
-    
-    const onSubmit = async (values: transactionFormValues) => {
-        console.log({ values });
 
+    const onSubmit = async (values: transactionFormValues) => {
+        const otherCategory = user?.categories.find(category => category.name === 'Other')
+        const payload = {
+            ...values,
+            categoryId: otherCategory?.id || 'others'
+        }
+        await createTransaction(payload);
     }
     return (
         <form className="p-3 grid gap-2" onSubmit={handleSubmit(onSubmit)}>

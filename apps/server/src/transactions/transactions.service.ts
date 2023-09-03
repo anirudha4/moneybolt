@@ -2,12 +2,28 @@ import { Injectable } from '@nestjs/common';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { RequestWithUserDto } from 'src/users/users.dto';
 
 @Injectable()
 export class TransactionsService {
   constructor(private prismaService: PrismaService) { }
-  create(createTransactionDto: CreateTransactionDto) {
-    return 'This action adds a new transaction';
+  async create(createTransactionDto: CreateTransactionDto, req: RequestWithUserDto) {
+    const { user } = req;
+    const { name, amount, type, categoryId, date } = createTransactionDto;
+    const transactionValues = {
+      name,
+      amount,
+      type,
+      date: new Date(date),
+      userId: user?.id,
+      categoryId: categoryId,
+      organizationId: user?.organizationId,
+
+    }
+    const transaction = await this.prismaService.transaction.create({
+      data: transactionValues,
+    });
+    return transaction;
   }
 
   async findAll(criteria: { userId: string }) {

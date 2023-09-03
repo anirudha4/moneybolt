@@ -5,6 +5,7 @@ import { TbFileInvoice } from "react-icons/tb"
 type Props = {
     size?: number,
 }
+
 export const TransactionIcon = ({ size = 18 }: Props) => {
     return (
         <RxCardStackMinus size={size} />
