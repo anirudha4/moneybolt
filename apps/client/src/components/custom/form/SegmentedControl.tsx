@@ -74,8 +74,7 @@ const Segment = ({ label, value, register }: SegmentProps) => {
                 className={mergeClasses(classNames(
                     "h-full flex items-center text-xs text-muted-foreground rounded",
                     "duration-100 flex-1 justify-center font-semibold text-[10px]  cursor-pointer",
-                    "dark:peer-checked:bg-accent  dark:peer-checked:text-accent-foreground",
-                    "peer-checked:bg-primary peer-checked:text-primary-foreground"
+                    "peer-checked:bg-secondary peer-checked:text-secondary-foreground"
                 ))}
                 htmlFor={value}
             >

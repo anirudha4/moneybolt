@@ -2,18 +2,16 @@ import { useTransactions } from "@hooks";
 import Transaction from "./Transaction";
 
 type Props = {
-    showRecent: boolean
+    showRecent?: boolean
 }
-const Transactions = ({ }: Props) => {
-    const { transactions } = useTransactions({});
+const Transactions = ({ showRecent = false }: Props) => {
+    const { transactions } = useTransactions({ showRecent });
 
     return (
-        <div className="grid gap-2 h-max overflow-auto">
-            {transactions?.map(transaction => {
-                return (
-                    <Transaction {...transaction} key={transaction.id} />
-                )
-            })}
+        <div className="p-3 transactions">
+            {transactions.map(transaction => (
+                <Transaction  {...transaction} key={transaction.id} />
+            ))}
         </div>
     )
 }

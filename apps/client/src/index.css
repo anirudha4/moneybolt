@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Righteous&display=swap');
-
+@import url('./styles/media.css');
 
 @tailwind base;
 @tailwind components;
@@ -72,11 +72,4 @@
 
 .text-display {
     font-family: 'Righteous', cursive;
-}
-/* app-layout */
-.app-grid {
-    @apply bg-background text-foreground text-sm;
-    display: grid;
-    height: 100vh;
-    transition: grid-template-columns .2s ease-in-out;
 }

@@ -23,7 +23,7 @@ const Sidebar = ({ }: Props) => {
 
     return (
         <div
-            className="border-r relative"
+            className="border-r relative sidebar"
         >
             <SidebarToggle />
             <Transition

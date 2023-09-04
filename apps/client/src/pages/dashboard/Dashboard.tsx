@@ -6,14 +6,14 @@ import { InvoiceIcon, TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
 import { AddTransaction } from "@components/transactions/AddTransaction";
-import RecentTransactions from "@components/dashboard/RecentTransactions";
 import { useTransactions } from "@hooks";
 import { formatCurrency } from "@utils/transaction";
+import Transactions from "@components/transactions";
 
 const Dashboard = () => {
     const { statistics } = useTransactions({});
     return (
-        <div className="h-full grid grid-cols-4 gap-4" style={{ gridTemplateRows: '200px 1fr 1fr' }}>
+        <div className="h-full grid grid-cols-4 gap-4 dashboard">
             <Card
                 className="col-span-2 row-span-1"
                 title="Statistics"
@@ -51,7 +51,7 @@ const Dashboard = () => {
                     </AddTransaction>
                 )}
             >
-                <RecentTransactions />
+                <Transactions showRecent={true} />
             </Card>
             <Card title="Integrations" className="row-span-2 col-span-2">
             </Card>

@@ -2,6 +2,7 @@ import { Avatar } from "@components/common"
 import { Transaction as TransactionType } from "@lib/types/resource-types"
 import { mergeClasses } from "@utils"
 import { TRANSACTION_TYPES } from "@utils/constants"
+import { formatCurrency } from "@utils/transaction"
 import classNames from "classnames"
 
 type Props = TransactionType & {}
@@ -32,7 +33,7 @@ const Transaction = ({
                 <div className={mergeClasses(classNames(
                     "text-xs font-medium text-accent-foreground truncate"
                 ))}>
-                    {type !== 'income' && <>-</>} Rs. {amount.toFixed(2)}
+                    {formatCurrency(amount)}
                 </div>
                 <Type type={type} />
             </div>

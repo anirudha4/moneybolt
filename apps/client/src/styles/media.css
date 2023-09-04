@@ -1,0 +1,44 @@
+/* app-layout */
+.app-grid {
+    @apply bg-background text-foreground text-sm;
+    display: grid;
+    min-height: 100vh;
+    transition: grid-template-columns .2s ease-in-out;
+}
+
+.dashboard {
+    grid-template-rows: 200px 1fr 1fr
+}
+
+.transactions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+}
+
+@media (max-width: 1300px) {
+    .dashboard {
+        grid-template-columns: 1fr !important;
+    }
+
+    .dashboard {
+        height: auto !important;
+    }
+}
+
+@media (max-width: 870px) {
+    .app-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 620px) {
+    .transactions {
+        grid-template-columns: 1fr;
+    }
+}
