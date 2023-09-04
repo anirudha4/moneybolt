@@ -6,9 +6,11 @@ import { InvoiceIcon, TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
 import { AddTransaction } from "@components/transactions/AddTransaction";
-import RecentTransaction from "@components/dashboard/RecentTransaction";
+import RecentTransactions from "@components/dashboard/RecentTransactions";
+import { useTransactions } from "@hooks";
 
 const Dashboard = () => {
+    const { statistics } = useTransactions({});
     return (
         <div className="h-full grid grid-cols-4 gap-4" style={{ gridTemplateRows: '200px 1fr 1fr' }}>
             <Card
@@ -20,11 +22,11 @@ const Dashboard = () => {
                         "flex gap-3 items-center"
                     )}>
                         <TbWallet size={18} />
-                        <span className="font-medium">Rs. 2,34,000.00</span>
+                        <span className="font-medium">Rs. {statistics.total.toFixed(2)}</span>
                     </div>
                 )}
             >
-                <Statistics />
+                <Statistics statistics={statistics} />
             </Card>
             <Card
                 className="row-span-2 col-span-2"
@@ -48,7 +50,7 @@ const Dashboard = () => {
                     </AddTransaction>
                 )}
             >
-                <RecentTransaction />
+                <RecentTransactions />
             </Card>
             <Card title="Integrations" className="row-span-2 col-span-2">
             </Card>

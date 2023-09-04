@@ -1,4 +1,6 @@
+import { Statistic } from "@lib/types";
 import { Transaction } from "@lib/types/resource-types";
+import { getTransactionStatistics } from "@utils/transaction";
 import axios from "axios";
 import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -27,15 +29,19 @@ const useTransactions = ({ showRecent }: useTransactionsProps) => {
         refetchOnWindowFocus: true
     });
 
-    const memoizedTransactions = useMemo(() => {
-        const sortedTransactions = [...transactions || []].sort((a, b) => {
+    const { memoizedTransactions, statistics } = useMemo<{ memoizedTransactions: Transaction[], statistics: Statistic }>((): { memoizedTransactions: Transaction[], statistics: Statistic } => {
+        const memoizedTransactions = [...transactions || []].sort((a, b) => {
             return new Date(b.date).getTime() - new Date(a.date).getTime()
         })
-
         if (showRecent) {
-            return sortedTransactions.slice(0, OFFSET)
+            const transactionsCut = memoizedTransactions.slice(0, OFFSET);
+            return {
+                memoizedTransactions: transactionsCut,
+                statistics: getTransactionStatistics(transactionsCut)
+            }
         }
-        return sortedTransactions;
+        const statistics = getTransactionStatistics(memoizedTransactions);
+        return { memoizedTransactions, statistics };
     }, [transactions])
 
     const { mutate: createTransaction, isLoading: isCreatingTransaction } = useMutation('create-transaction', service.createTransaction, {
@@ -54,7 +60,8 @@ const useTransactions = ({ showRecent }: useTransactionsProps) => {
         isLoading,
         error,
         createTransaction,
-        isCreatingTransaction
+        isCreatingTransaction,
+        statistics
     }
 }
 

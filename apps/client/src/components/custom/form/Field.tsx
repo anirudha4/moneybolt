@@ -60,7 +60,7 @@ const Field = forwardRef<HTMLInputElement, Props>(({ className, variant = 'conta
                         {label}
                     </label>
                 )}
-                <input ref={ref} className="px-2 outline-none block h-full text-accent-foreground" name={name} id={id} {...props} />
+                <input ref={ref} className="px-2 outline-none block h-full text-accent-foreground bg-background" name={name} id={id} {...props} />
             </div>
             {error && (
                 <motion.div initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ bounceStiffness: 100 }} className="text-destructive text-sm mt-1 flex gap-2 items-center">

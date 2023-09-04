@@ -5,9 +5,10 @@ import React from "react"
 type Props = {
     children: React.ReactNode,
     trigger: React.ReactNode,
-    positionClasses?: string
+    positionClasses?: string,
+    width?: string
 }
-const Popup = ({ children, trigger, positionClasses = 'right-0 top-2' }: Props) => {
+const Popup = ({ children, trigger, positionClasses = 'right-0 top-2', width = 'w-[350px]' }: Props) => {
     return (
         <Popover>
             <Popover.Button as={React.Fragment}>
@@ -22,8 +23,9 @@ const Popup = ({ children, trigger, positionClasses = 'right-0 top-2' }: Props) 
                 leaveTo="transform scale-95 opacity-0"
             >
                 <Popover.Panel className={classNames(
-                    "absolute z-10 w-[350px] bg-background",
+                    "absolute z-10 bg-background",
                     "rounded-md shadow-lg border",
+                    width,
                     positionClasses
                 )}>
                     {children}

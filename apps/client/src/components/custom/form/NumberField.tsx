@@ -78,7 +78,7 @@ const NumberField = forwardRef<HTMLInputElement, Props>(({
                             {notation}
                         </span>
                     )}
-                    <input ref={ref} className="outline-none block h-full text-accent-foreground w-full" name={name} id={id} {...props} />
+                    <input ref={ref} className="outline-none block h-full text-accent-foreground bg-background w-full" name={name} id={id} {...props} />
                 </div>
             </div>
             {error && (

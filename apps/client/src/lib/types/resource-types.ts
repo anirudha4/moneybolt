@@ -9,9 +9,8 @@ export type Transaction = {
     name: string
     amount: number
     date: Date
-    type: 'income' | 'expense'
+    type: 'income' | 'expense' | 'investment'
     categoryId: string
-    tagId?: string
 }
 export type Category = {
     id: string

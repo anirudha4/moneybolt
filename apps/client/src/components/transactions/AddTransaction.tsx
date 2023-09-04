@@ -1,14 +1,16 @@
 import { Button, Field, NumberField } from "@components/custom";
 import Popup from "@components/custom/Popup";
+import SegmentedControl from "@components/custom/form/SegmentedControl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth, useTransactions } from "@hooks";
+import { TRANSACTION_TYPES } from "@utils/constants";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
     return (
-        <Popup trigger={children}>
+        <Popup width="w-[350px]" trigger={children}>
             <div className="flex flex-col gap-2">
                 <div className="px-4 min-h-[60px] border-b flex items-center justify-between">
                     <div className="text-secondary-foreground text-md font-medium">
@@ -24,14 +26,13 @@ export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
 const transactionSchema = z.object({
     name: z.string().min(3),
     amount: z.number().positive(),
-    type: z.enum(['expense', 'income']).default('expense'),
+    type: z.enum(['expense', 'income', 'investment']).default('expense'),
     categoryId: z.string().default('others'),
-    tagId: z.string().optional(),
     date: z.date().default(new Date()),
     description: z.string().optional(),
 });
 
-type transactionFormValues = z.infer<typeof transactionSchema>
+export type transactionFormValues = z.infer<typeof transactionSchema>
 
 export const TransactionForm = () => {
     const { createTransaction } = useTransactions({});
@@ -39,7 +40,7 @@ export const TransactionForm = () => {
     const {
         register,
         handleSubmit,
-        formState
+        formState,
     } = useForm<transactionFormValues>({
         resolver: zodResolver(transactionSchema)
     });
@@ -66,7 +67,14 @@ export const TransactionForm = () => {
                 placeholder="Enter Amount"
                 notation="Rs."
             />
-
+            <SegmentedControl
+                error={formState.errors.type}
+                options={Object.keys(TRANSACTION_TYPES).map(type => ({
+                    label: type,
+                    value: type.toLowerCase()
+                }))}
+                register={register}
+            />
             <Button>
                 Add Transaction
             </Button>
