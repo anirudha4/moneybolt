@@ -41,6 +41,7 @@ export const TransactionForm = () => {
         register,
         handleSubmit,
         formState,
+        reset,
     } = useForm<transactionFormValues>({
         resolver: zodResolver(transactionSchema)
     });
@@ -52,6 +53,7 @@ export const TransactionForm = () => {
             categoryId: otherCategory?.id || 'others'
         }
         await createTransaction(payload);
+        reset();
     }
     return (
         <form className="p-3 grid gap-2" onSubmit={handleSubmit(onSubmit)}>
