@@ -8,6 +8,7 @@ import Statistics from "@components/dashboard/Statistics";
 import { AddTransaction } from "@components/transactions/AddTransaction";
 import RecentTransactions from "@components/dashboard/RecentTransactions";
 import { useTransactions } from "@hooks";
+import { formatCurrency } from "@utils/transaction";
 
 const Dashboard = () => {
     const { statistics } = useTransactions({});
@@ -22,7 +23,7 @@ const Dashboard = () => {
                         "flex gap-3 items-center"
                     )}>
                         <TbWallet size={18} />
-                        <span className="font-medium">Rs. {statistics.total.toFixed(2)}</span>
+                        <span className="font-medium">{formatCurrency(statistics.total)}</span>
                     </div>
                 )}
             >
