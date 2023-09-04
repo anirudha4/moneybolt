@@ -13,11 +13,11 @@ export type UserType = {
     email: string,
     avatarUrl?: string
     organizationId?: string,
-    organization: {
+    organization?: {
         id: string,
         name: string
     },
-    categories: Category[]
+    categories?: Category[]
 };
 
 type Props = {
