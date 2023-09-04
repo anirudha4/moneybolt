@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import { TbWallet } from "react-icons/tb";
 
-import { InvoiceIcon, TransactionIcon } from "@components/common/icons";
+import { TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
 import { AddTransaction } from "@components/transactions/AddTransaction";
@@ -32,12 +32,7 @@ const Dashboard = () => {
             <Card
                 className="row-span-2 col-span-2"
                 title="Invoices"
-                rightAction={(
-                    <Button size="sm">
-                        Create Invoice
-                        <InvoiceIcon size={16} />
-                    </Button>
-                )}>
+            >
             </Card>
             <Card
                 className="col-span-2 row-span-3"

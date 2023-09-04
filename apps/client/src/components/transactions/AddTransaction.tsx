@@ -4,7 +4,7 @@ import SegmentedControl from "@components/custom/form/SegmentedControl";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth, useTransactions } from "@hooks";
 import { TRANSACTION_TYPES } from "@utils/constants";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,7 +27,7 @@ const transactionSchema = z.object({
     name: z.string().min(3),
     amount: z.number().positive(),
     type: z.enum(['expense', 'income', 'investment']).default('expense'),
-    categoryId: z.string().default('others'),
+    categoryId: z.string(),
     date: z.date().default(new Date()),
     description: z.string().optional(),
 });
@@ -42,6 +42,7 @@ export const TransactionForm = () => {
         handleSubmit,
         formState,
         reset,
+        setValue
     } = useForm<transactionFormValues>({
         resolver: zodResolver(transactionSchema)
     });
@@ -55,6 +56,14 @@ export const TransactionForm = () => {
         await createTransaction(payload);
         reset();
     }
+    useEffect(() => {
+        if (user?.categories?.length) {
+            const otherCategory = user?.categories?.find(category => category.name === 'Other')
+            if (otherCategory) {
+                setValue("categoryId", otherCategory.id)
+            }
+        }
+    }, [user?.categories])
     return (
         <form className="p-3 grid gap-2" onSubmit={handleSubmit(onSubmit)}>
             <Field autoComplete="off" error={formState.errors.name} id="name" {...register('name', { required: true })} label="Name" placeholder="Eg. Bring Milk" />
