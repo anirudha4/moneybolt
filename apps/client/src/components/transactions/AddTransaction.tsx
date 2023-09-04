@@ -45,7 +45,7 @@ export const TransactionForm = () => {
     });
 
     const onSubmit = async (values: transactionFormValues) => {
-        const otherCategory = user?.categories.find(category => category.name === 'Other')
+        const otherCategory = user?.categories?.find(category => category.name === 'Other')
         const payload = {
             ...values,
             categoryId: otherCategory?.id || 'others'
