@@ -5,10 +5,7 @@ import classNames from "classnames"
 type Props = TransactionType & {}
 const Transaction = ({
     name,
-    amount,
-    date,
     type,
-    id,
 }: Props) => {
     return (
         <>
