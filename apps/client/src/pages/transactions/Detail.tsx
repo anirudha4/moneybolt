@@ -1,61 +1,55 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Field, NumberField } from "@components/custom";
-import Popup from "@components/custom/Popup";
 import SegmentedControl from "@components/custom/form/SegmentedControl";
+import { transactionFormValues, transactionSchema } from "@components/transactions/AddTransaction";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth, useTransactions } from "@hooks";
 import { TRANSACTION_TYPES } from "@utils/constants";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useParams } from "react-router-dom";
 
-export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
-    return (
-        <Popup width="w-[350px]" trigger={children}>
-            <div className="flex flex-col gap-2">
-                <div className="px-4 min-h-[60px] border-b flex items-center justify-between">
-                    <div className="text-secondary-foreground text-md font-medium">
-                        Add Transaction
-                    </div>
-                </div>
-            </div>
-            <TransactionForm />
-        </Popup>
-    )
-}
+type Props = {}
+const Detail = ({ }: Props) => {
+    const { transaction_id } = useParams();
+    const { transaction } = useTransactions({ id: transaction_id });
 
-export const transactionSchema = z.object({
-    name: z.string().min(3),
-    amount: z.number().positive(),
-    type: z.enum(['expense', 'income', 'investment']).default('expense'),
-    categoryId: z.string(),
-    date: z.date(),
-    description: z.string().optional(),
-});
-
-export type transactionFormValues = z.infer<typeof transactionSchema>
-
-export const TransactionForm = () => {
-    const { createTransaction } = useTransactions({});
     const { user } = useAuth();
     const {
         register,
         handleSubmit,
         formState,
-        reset,
         setValue
     } = useForm<transactionFormValues>({
-        resolver: zodResolver(transactionSchema)
+        resolver: zodResolver(transactionSchema),
+        defaultValues: {
+            ...transaction,
+            date: transaction?.date
+        },
+        values: {
+            ...transaction,
+            name: transaction?.name || '',
+            amount: transaction?.amount || 0,
+            type: transaction?.type || 'expense',
+            categoryId: transaction?.categoryId || '',
+            date: new Date(transaction?.date || new Date()),
+            description: ''
+        },
     });
 
+
+    // handlers
     const onSubmit = async (values: transactionFormValues) => {
         const otherCategory = user?.categories?.find(category => category.name === 'Other')
         const payload = {
             ...values,
             categoryId: otherCategory?.id || 'others'
         }
-        await createTransaction(payload);
-        reset();
+        console.log(payload);
+        
     }
+
+
+    // effects
     useEffect(() => {
         if (user?.categories?.length) {
             const otherCategory = user?.categories?.find(category => category.name === 'Other')
@@ -64,9 +58,10 @@ export const TransactionForm = () => {
             }
         }
     }, [user?.categories])
+
     return (
-        <form className="p-3 grid gap-2" onSubmit={handleSubmit(onSubmit)}>
-            <Field autoComplete="off" error={formState.errors.name} id="name" {...register('name', { required: true })} label="Name" placeholder="Eg. Bring Milk" />
+        <form className="p-5 grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+            <Field error={formState.errors.name} id="name" {...register('name', { required: true })} label="Name" placeholder="Eg. Bring Milk" autoFocus={false} autoComplete="off" />
             <NumberField
                 error={formState.errors.amount}
                 id="amount"
@@ -92,3 +87,4 @@ export const TransactionForm = () => {
         </form>
     )
 }
+export default Detail;

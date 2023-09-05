@@ -1,12 +1,15 @@
 import { AppBar, Sidebar } from "@components/common";
+import Modal from "@components/custom/Modal";
 import { PATHS } from "@config/constants/paths";
 import { useAuth } from "@hooks";
 import { useUI } from "@hooks";
-import { Navigate, Outlet } from "react-router-dom"
+import Detail from "@pages/transactions/Detail";
+import { Navigate, Outlet, useParams } from "react-router-dom"
 
 const Layout = () => {
     const { user } = useAuth();
     const { isSidebarOpen } = useUI();
+    const { transaction_id } = useParams();
 
     if (!user) return <Navigate to={PATHS.AUTH} />
 
@@ -24,6 +27,12 @@ const Layout = () => {
                     <Outlet />
                 </div>
             </div>
+            {/* modals and sidepanels */}
+            {transaction_id && (
+                <Modal title="Transaction Details" trigger={null} isOpen={!!transaction_id} key={transaction_id}>
+                    <Detail />
+                </Modal>
+            )}
         </div>
     )
 }

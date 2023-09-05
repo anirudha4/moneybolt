@@ -18,17 +18,19 @@ const service = {
 }
 
 type useTransactionsProps = {
-    showRecent?: boolean
+    showRecent?: boolean,
+    id?: string
 }
 const OFFSET = 20
 
-const useTransactions = ({ showRecent }: useTransactionsProps) => {
+const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
     // query client
     const queryClient = useQueryClient();
     const { data: transactions, isLoading, error } = useQuery(key, service.getTransactions, {
         refetchOnWindowFocus: true
     });
-
+    const transaction = useMemo(() => transactions?.find(transaction => transaction.id === id),
+        [transactions, id]);
     const { memoizedTransactions, statistics } = useMemo<{ memoizedTransactions: Transaction[], statistics: Statistic }>((): { memoizedTransactions: Transaction[], statistics: Statistic } => {
         const memoizedTransactions = [...transactions || []].sort((a, b) => {
             return new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -61,7 +63,8 @@ const useTransactions = ({ showRecent }: useTransactionsProps) => {
         error,
         createTransaction,
         isCreatingTransaction,
-        statistics
+        statistics,
+        transaction
     }
 }
 

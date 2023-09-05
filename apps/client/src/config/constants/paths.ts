@@ -12,9 +12,16 @@ export const PATHS = {
     ACCOUNT: '/accounts',
     WORKSPACE: '/preferences',
     APP: '/app',
+
     DASHBOARD: '/app/dashboard',
+    TRANSACTION_FROM_DASHBOARD: '/app/dashboard/view/:transaction_id',
+
     TRANSACTIONS: '/app/transactions',
+    TRANSACTION_FROM_TRANSACTION: '/app/transactions/view/:transaction_id',
+
     INVOICES: '/app/invoices',
+    TRANSACTION_FROM_INVOICE: '/app/invoices/view/:invoice_id',
+
     INTEGRATIONS: '/app/integrations',
     CONFIGURE: '/app/configurations',
 };

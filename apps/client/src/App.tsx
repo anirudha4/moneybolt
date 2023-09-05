@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 // utilities
 import { PATHS } from "@config/constants/paths";
-// components
+// pages and components
 import { Auth } from "@pages/auth";
 import { Home, Layout } from "@pages/home";
 import { Dashboard, DashboardLayout } from "@pages/dashboard";
@@ -18,9 +18,15 @@ const App = () => {
       </Route>
       <Route path={PATHS.AUTH} element={<Auth />} />
       <Route path={PATHS.APP} element={<DashboardLayout />}>
-        <Route path={PATHS.DASHBOARD} element={<Dashboard />} />
-        <Route path={PATHS.TRANSACTIONS} element={<Transactions />} />
-        <Route path={PATHS.INVOICES} element={<Invoices />} />
+        <Route path={PATHS.DASHBOARD} element={<Dashboard />}>
+          <Route path={PATHS.TRANSACTION_FROM_DASHBOARD} element={<Dashboard />} />
+        </Route>
+        <Route path={PATHS.TRANSACTIONS} element={<Transactions />}>
+          <Route path={PATHS.TRANSACTION_FROM_TRANSACTION} element={<Transactions />} />
+        </Route>
+        <Route path={PATHS.INVOICES} element={<Invoices />}>
+          <Route path={PATHS.TRANSACTION_FROM_INVOICE} element={<Invoices />} />
+        </Route>
         <Route path={PATHS.INTEGRATIONS} element={<Integrations />} />
         <Route path={PATHS.CONFIGURE} element={<Configurations />} />
       </Route>

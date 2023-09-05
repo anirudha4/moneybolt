@@ -1,43 +1,48 @@
 import { Avatar } from "@components/common"
+import { PATHS } from "@config/constants/paths"
 import { Transaction as TransactionType } from "@lib/types/resource-types"
 import { mergeClasses } from "@utils"
 import { TRANSACTION_TYPES } from "@utils/constants"
 import { formatCurrency } from "@utils/transaction"
 import classNames from "classnames"
+import { Link } from "react-router-dom"
 
 type Props = TransactionType & {}
 const Transaction = ({
+    id,
     name,
     type,
     amount,
     date,
 }: Props) => {
     return (
-        <div className={classNames(
-            "border rounded p-3 h-fit flex flex-col gap-3 cursor-pointer",
-            "hover:shadow transition-shadow"
-        )}>
-            <div className="flex items-center gap-3">
-                <Avatar size="md" character={name.charAt(0).toUpperCase()} />
-                <div className="flex flex-col justify-center truncate">
-                    <div className="font-semibold text-secondary-foreground truncate">
-                        {name}
-                    </div>
-                    <div className="text-[10px] uppercase text-muted-foreground">
-                        {new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+        <Link to={PATHS.TRANSACTION_FROM_DASHBOARD.replace(':transaction_id', id)}>
+            <div className={classNames(
+                "border rounded p-3 h-fit flex flex-col gap-3 cursor-pointer",
+                "hover:shadow transition-shadow"
+            )}>
+                <div className="flex items-center gap-3">
+                    <Avatar size="md" character={name.charAt(0).toUpperCase()} />
+                    <div className="flex flex-col justify-center truncate">
+                        <div className="font-semibold text-secondary-foreground truncate">
+                            {name}
+                        </div>
+                        <div className="text-[10px] uppercase text-muted-foreground">
+                            {new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="border-b"></div>
-            <div className="flex justify-between items-center truncate">
-                <div className={mergeClasses(classNames(
-                    "text-xs font-medium text-accent-foreground truncate"
-                ))}>
-                    {formatCurrency(amount)}
+                <div className="border-b"></div>
+                <div className="flex justify-between items-center truncate">
+                    <div className={mergeClasses(classNames(
+                        "text-xs font-medium text-accent-foreground truncate"
+                    ))}>
+                        {formatCurrency(amount)}
+                    </div>
+                    <Type type={type} />
                 </div>
-                <Type type={type} />
             </div>
-        </div>
+        </Link>
     )
 }
 export default Transaction

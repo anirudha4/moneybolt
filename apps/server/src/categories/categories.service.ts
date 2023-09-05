@@ -10,11 +10,6 @@ export class CategoriesService {
     return 'This action adds a new category';
   }
 
-  async createMany(createCategoriesDto: CreateCategoryDto[]) {
-    console.log(createCategoriesDto);
-    return
-  }
-
   findAll() {
     return `This action returns all categories`;
   }
