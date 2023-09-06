@@ -8,6 +8,6 @@ export const getTransactionStatistics = (transactions: Transaction[]) => {
     return { total, income, expense, investment };
 }
 
-export const formatCurrency = (amount: number, currency: string = 'INR', lang = 'en-IN') => {
+export const formatCurrency = (amount: number = 0, currency: string = 'INR', lang = 'en-IN') => {
     return new Intl.NumberFormat(lang, { style: 'currency', currency }).format(amount);
 }

@@ -1,8 +1,11 @@
+import { pick } from 'lodash';
 import { Injectable } from '@nestjs/common';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
+
 import { PrismaService } from 'src/prisma/prisma.service';
 import { RequestWithUserDto } from 'src/users/users.dto';
+
+import { CreateTransactionDto } from './dto/create-transaction.dto';
+import { UpdateTransactionDto } from './dto/update-transaction.dto';
 
 @Injectable()
 export class TransactionsService {
@@ -32,12 +35,27 @@ export class TransactionsService {
     });
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} transaction`;
+  async findOne(id: string) {
+    return this.prismaService.transaction.findUnique({ where: { id } })
   }
 
-  update(id: string, updateTransactionDto: UpdateTransactionDto) {
-    return `This action updates a #${id} transaction`;
+  async findOneByCriteria<T>(criteria: T) {
+    return this.prismaService.transaction.findFirst({ where: criteria })
+  }
+
+  async update(id: string, updateTransactionDto: UpdateTransactionDto, req: RequestWithUserDto) {
+    let transaction = await this.findOne(id)
+    if (!transaction) {
+      throw new Error('Transaction not found')
+    }
+    const transactionValues = pick(updateTransactionDto, ['name', 'amount', 'type', 'categoryId', 'date', 'description'])
+
+    transaction = await this.prismaService.transaction.update({
+      where: { id },
+      data: transactionValues
+    });
+
+    return transaction;
   }
 
   remove(id: string) {

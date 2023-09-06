@@ -17,7 +17,7 @@ const button = cva([
             secondary: ['bg-secondary text-secondary-foreground hover:bg-accent'],
             destructive: ['bg-destructive text-destructive-foreground'],
             outline: ['bg-secondary border border-accent text-secondary-foreground hover:bg-accent'],
-            disabled: ['bg-slate-200 text-slate-400'],
+            disabled: ['bg-slate-200 text-slate-400 cursor-not-allowed'],
         },
         size: {
             sm: ['md:h-8 h-7 px-3'],

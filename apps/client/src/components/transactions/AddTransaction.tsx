@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React, { useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Field, NumberField } from "@components/custom";
@@ -7,6 +7,8 @@ import Popup from "@components/custom/Popup";
 import SegmentedControl from "@components/custom/form/SegmentedControl";
 import { useAuth, useTransactions } from "@hooks";
 import { TRANSACTION_TYPES } from "@utils/constants";
+import Select from "@components/custom/form/Select";
+import { makeOptions } from "@utils";
 
 export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -26,9 +28,9 @@ export const AddTransaction = ({ children }: { children: React.ReactNode }) => {
 export const transactionSchema = z.object({
     name: z.string().min(3),
     amount: z.number().positive(),
-    type: z.enum(['expense', 'income', 'investment']).default('expense'),
+    type: z.enum(['expense', 'income', 'investment']).default("expense"),
     categoryId: z.string(),
-    date: z.date(),
+    date: z.date().default(new Date()),
     description: z.string().optional(),
 });
 
@@ -38,6 +40,7 @@ export const TransactionForm = () => {
     const { createTransaction } = useTransactions({});
     const { user } = useAuth();
     const {
+        control,
         register,
         handleSubmit,
         formState,
@@ -47,25 +50,28 @@ export const TransactionForm = () => {
         resolver: zodResolver(transactionSchema)
     });
 
+    const categoryOptions = useMemo(() => makeOptions(user?.categories), [user?.categories])
+
     const onSubmit = async (values: transactionFormValues) => {
-        const otherCategory = user?.categories?.find(category => category.name === 'Other')
         const payload = {
-            ...values,
-            categoryId: otherCategory?.id || 'others'
+            ...values
         }
         await createTransaction(payload);
         reset();
     }
-    useEffect(() => {
-        if (user?.categories?.length) {
-            const otherCategory = user?.categories?.find(category => category.name === 'Other')
-            if (otherCategory) {
-                setValue("categoryId", otherCategory.id)
-            }
-        }
-    }, [user?.categories])
+    const handleCategoryChange = (value: string) => setValue("categoryId", value)
+    console.log(formState.errors);
+    
     return (
         <form className="p-3 grid gap-2" onSubmit={handleSubmit(onSubmit)}>
+            <SegmentedControl
+                error={formState.errors.type}
+                options={Object.keys(TRANSACTION_TYPES).map(type => ({
+                    label: type,
+                    value: type.toLowerCase()
+                }))}
+                register={register}
+            />
             <Field autoComplete="off" error={formState.errors.name} id="name" {...register('name', { required: true })} label="Name" placeholder="Eg. Bring Milk" />
             <NumberField
                 error={formState.errors.amount}
@@ -78,13 +84,19 @@ export const TransactionForm = () => {
                 placeholder="Enter Amount"
                 notation="Rs."
             />
-            <SegmentedControl
-                error={formState.errors.type}
-                options={Object.keys(TRANSACTION_TYPES).map(type => ({
-                    label: type,
-                    value: type.toLowerCase()
-                }))}
-                register={register}
+            <Controller
+                name="categoryId"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                    <Select
+                        ref={ref}
+                        selected={value}
+                        label="Category"
+                        options={categoryOptions}
+                        onSelectValue={handleCategoryChange}
+                        error={formState.errors.categoryId}
+                    />
+                )}
             />
             <Button>
                 Add Transaction

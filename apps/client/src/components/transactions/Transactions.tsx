@@ -8,7 +8,7 @@ const Transactions = ({ showRecent = false }: Props) => {
     const { transactions } = useTransactions({ showRecent });
 
     return (
-        <div className="p-3 transactions">
+        <div className="p-3 transactions overflow-auto">
             {transactions.map(transaction => (
                 <Transaction  {...transaction} key={transaction.id} />
             ))}

@@ -9,7 +9,7 @@ const Header = () => {
                 <div className="flex items-center gap-10">
                     <Logo size="lg" />
                     {PRODUCT_LINKS.map(link => (
-                        <a key={link.id} className="text-secondary-foreground hover:text-primary hidden md:block" href={link.value}>{link.label}</a>
+                        <a key={link.value} className="text-secondary-foreground hover:text-primary hidden md:block" href={link.value}>{link.label}</a>
                     ))}
                 </div>
                 <Navbar />

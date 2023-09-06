@@ -8,8 +8,8 @@ import { motion } from "framer-motion";
 import { measure } from "@lib/types"
 import { mergeClasses } from "@utils";
 
-const field = cva(classNames(
-    "relative flex flex-col justify-around border focus-within:border-primary rounded-md",
+export const field = cva(classNames(
+    "relative flex flex-col justify-around border focus-within:border-primary rounded",
     "group duration-100 transition-all overflow-hidden"
 ), {
     variants: {
@@ -35,7 +35,7 @@ interface Props extends Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
     error?: FieldError
 }
 
-const Field = forwardRef<HTMLInputElement, Props>(({ className, variant = 'contained', size = 'md', name, id, label, error, ...props }: Props, ref) => {
+const Field = forwardRef<HTMLInputElement, Props>(({ className, variant = 'contained', size = 'md', name, id, label, error, autoFocus, ...props }: Props, ref) => {
     const isContainedField = variant === 'contained';
     return (
         <div>
@@ -60,7 +60,7 @@ const Field = forwardRef<HTMLInputElement, Props>(({ className, variant = 'conta
                         {label}
                     </label>
                 )}
-                <input ref={ref} className="px-2 outline-none block h-full text-accent-foreground bg-background" name={name} id={id} {...props} />
+                <input ref={ref} className="px-2 outline-none block h-full text-accent-foreground bg-background" name={name} id={id} autoFocus={autoFocus} {...props} />
             </div>
             {error && (
                 <motion.div initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ bounceStiffness: 100 }} className="text-destructive text-sm mt-1 flex gap-2 items-center">

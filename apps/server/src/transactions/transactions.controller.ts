@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Request, UseGuards, Put } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
@@ -27,9 +27,9 @@ export class TransactionsController {
     return this.transactionsService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto) {
-    return this.transactionsService.update(id, updateTransactionDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateTransactionDto: UpdateTransactionDto, @Request () req: RequestWithUserDto) {
+    return await this.transactionsService.update(id, updateTransactionDto, req);
   }
 
   @Delete(':id')

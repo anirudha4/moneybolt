@@ -1,24 +1,30 @@
+import { useMemo } from "react";
+import { Controller, useForm } from "react-hook-form";
+import Select from "@components/custom/form/Select";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Field, NumberField } from "@components/custom";
 import SegmentedControl from "@components/custom/form/SegmentedControl";
 import { transactionFormValues, transactionSchema } from "@components/transactions/AddTransaction";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useAuth, useTransactions } from "@hooks";
-import { TRANSACTION_TYPES } from "@utils/constants";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
 
-type Props = {}
-const Detail = ({ }: Props) => {
-    const { transaction_id } = useParams();
-    const { transaction } = useTransactions({ id: transaction_id });
+import { useAuth } from "@hooks";
+import { Transaction, TransactionWithCategory } from "@lib/types/resource-types";
+import { TRANSACTION_TYPES } from "@utils/constants";
+import { makeOptions } from "@utils";
+
+type Props = {
+    transaction: TransactionWithCategory | undefined
+    updateTransaction: (values: Transaction) => void
+    isUpdatingTransaction: boolean
+}
+const EditTransaction = ({ transaction, isUpdatingTransaction, updateTransaction }: Props) => {
 
     const { user } = useAuth();
     const {
         register,
         handleSubmit,
         formState,
-        setValue
+        setValue,
+        control,
     } = useForm<transactionFormValues>({
         resolver: zodResolver(transactionSchema),
         defaultValues: {
@@ -33,34 +39,20 @@ const Detail = ({ }: Props) => {
             categoryId: transaction?.categoryId || '',
             date: new Date(transaction?.date || new Date()),
             description: ''
-        },
+        }
     });
 
 
+    const categoryOptions = useMemo(() => makeOptions(user?.categories), [user?.categories])
+
     // handlers
     const onSubmit = async (values: transactionFormValues) => {
-        const otherCategory = user?.categories?.find(category => category.name === 'Other')
-        const payload = {
-            ...values,
-            categoryId: otherCategory?.id || 'others'
-        }
-        console.log(payload);
-        
+        await updateTransaction({ id: transaction?.id, ...values });
     }
-
-
-    // effects
-    useEffect(() => {
-        if (user?.categories?.length) {
-            const otherCategory = user?.categories?.find(category => category.name === 'Other')
-            if (otherCategory) {
-                setValue("categoryId", otherCategory.id)
-            }
-        }
-    }, [user?.categories])
-
+    const handleCategoryChange = (value: string) => setValue("categoryId", value)
+    
     return (
-        <form className="p-5 grid gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <form className="p-5 grid gap-4" autoFocus={false} onSubmit={handleSubmit(onSubmit)}>
             <Field error={formState.errors.name} id="name" {...register('name', { required: true })} label="Name" placeholder="Eg. Bring Milk" autoFocus={false} autoComplete="off" />
             <NumberField
                 error={formState.errors.amount}
@@ -81,10 +73,23 @@ const Detail = ({ }: Props) => {
                 }))}
                 register={register}
             />
-            <Button>
-                Add Transaction
+            <Controller
+                name="categoryId"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                    <Select
+                        ref={ref}
+                        selected={value}
+                        label="Category"
+                        options={categoryOptions}
+                        onSelectValue={handleCategoryChange}
+                    />
+                )}
+            />
+            <Button loading={isUpdatingTransaction}>
+                Update Transaction
             </Button>
         </form>
     )
 }
-export default Detail;
+export default EditTransaction;

@@ -1,9 +1,8 @@
 import { AppBar, Sidebar } from "@components/common";
-import Modal from "@components/custom/Modal";
 import { PATHS } from "@config/constants/paths";
 import { useAuth } from "@hooks";
 import { useUI } from "@hooks";
-import Detail from "@pages/transactions/Detail";
+import TransactionExpand from "@pages/transactions/TransactionExpand";
 import { Navigate, Outlet, useParams } from "react-router-dom"
 
 const Layout = () => {
@@ -29,9 +28,7 @@ const Layout = () => {
             </div>
             {/* modals and sidepanels */}
             {transaction_id && (
-                <Modal title="Transaction Details" trigger={null} isOpen={!!transaction_id} key={transaction_id}>
-                    <Detail />
-                </Modal>
+                <TransactionExpand id={transaction_id} />
             )}
         </div>
     )

@@ -43,11 +43,11 @@ export class AccessTokensService {
     return access_token;
   }
 
-  async verifyAccessToken(access_token: string): Promise<user_account> {
+  async verifyAccessToken(access_token: string): Promise<Omit<user_account, 'password'>> {
     const payload: accessTokenDto = await this.jwt.verifyAsync(access_token, {
       secret: process.env.JWT_SECRET,
     });
-    let user = await this.prisma.user_account.findUnique({
+    const user = await this.prisma.user_account.findUnique({
       where: {
         id: payload.sub,
       },
@@ -63,7 +63,8 @@ export class AccessTokensService {
     });
 
     if (isEmpty(dispatchedToken)) return null;
-    user = omit(user, ["password"]);
-    return user;
+
+    const userWithoutPassword = omit(user, ["password"]);
+    return userWithoutPassword;
   }
 }

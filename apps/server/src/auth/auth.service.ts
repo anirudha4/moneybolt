@@ -81,7 +81,7 @@ export class AuthService {
     }
 
     async logout(
-        user: user_account
+        user: Omit<user_account, 'password'>
     ): Promise<void> {
         const accessToken = await this.prisma.access_token.findFirst({
             where: {

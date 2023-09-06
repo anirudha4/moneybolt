@@ -1,11 +1,18 @@
 import { twMerge } from "tailwind-merge"
-import { v4 as uuid } from 'uuid';
 
-type option = {
-    id: string,
+type Option = {
     label: string,
     value: string
 }
+interface EntityType {
+    name: string,
+    id: string
+}
 
-export const makeOption = (label: string, value: string): option => ({ id: uuid(), label, value })
+
+export const makeOptions = <T extends EntityType>(options: T[] = []): Option[] =>
+    options.map((option: T) => makeOption(option.name, option.id))
+
+export const makeOption = (label: string, value: string): Option => ({ label, value })
+
 export const mergeClasses = (className: string | undefined) => twMerge(className);

@@ -2,13 +2,12 @@ import { measure } from "@lib/types";
 import { mergeClasses } from "@utils";
 import { cva } from "class-variance-authority";
 import classNames from "classnames";
-import { DetailedHTMLProps, InputHTMLAttributes, forwardRef } from "react"
+import { DetailedHTMLProps, InputHTMLAttributes } from "react"
 import { FieldError } from "react-hook-form";
 
 const segmentedControl = cva(classNames(
-    "relative flex gap-1 p-[3px] border rounded-md",
+    "relative flex gap-1 p-[3px] border rounded",
     "group duration-100 transition-all overflow-hidden",
-    // "focus-within:border-primary"
 ), {
     variants: {
         size: {
@@ -29,7 +28,7 @@ interface Props extends Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElem
     options: Option[],
     register: any
 }
-const SegmentedControl = forwardRef<HTMLInputElement, Props>(({
+const SegmentedControl = ({
     error,
     size = 'md',
     className,
@@ -48,7 +47,7 @@ const SegmentedControl = forwardRef<HTMLInputElement, Props>(({
             ))}
         </div>
     )
-})
+}
 export default SegmentedControl
 
 type SegmentProps = {

@@ -8,7 +8,7 @@ type Props = {
     children: React.ReactNode,
     trigger: React.ReactNode,
     isOpen?: boolean,
-    title: string,
+    title: string | React.ReactNode | undefined,
     action?: React.ReactNode
 }
 const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }: Props) => {
@@ -55,17 +55,15 @@ const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-sm lg:max-w-md transform overflow-hidden rounded bg-white text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-sm lg:max-w-md transform rounded bg-white text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h3"
-                                        className="text-lg font-medium text-secondary-foreground px-4 border-b flex items-center justify-between h-[60px]"
+                                        className="font-medium text-secondary-foreground px-4 border-b flex items-center justify-between h-[60px] gap-2"
                                     >
-                                        <span>
-                                            {title}
-                                        </span>
+                                        {title}
                                         <div
                                             className={classNames(
-                                                "h-10 w-10 flex items-center justify-center rounded hover:bg-secondary transition-all duration-200", "cursor-pointer border border-transparent hover:border-border group"
+                                                "h-[35px] w-[35px] min-w-[35px] flex items-center justify-center rounded hover:bg-secondary transition-all duration-200", "cursor-pointer border border-transparent hover:border-border group"
                                             )}
                                             onClick={handleClose}
                                         >

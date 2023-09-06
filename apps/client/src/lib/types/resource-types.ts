@@ -5,7 +5,7 @@ export type Tag = {
     organizationId: string
 }
 export type Transaction = {
-    id: string
+    id?: string
     name: string
     amount: number
     date: Date
@@ -17,3 +17,4 @@ export type Category = {
     name: string;
     color: string;
 }
+export type TransactionWithCategory = Transaction & { category: Category | undefined } | null

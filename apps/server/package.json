@@ -29,6 +29,7 @@
     "@nestjs/serve-static": "^4.0.0",
     "@nestjs/websockets": "^10.2.1",
     "@prisma/client": "4.16.1",
+    "@types/lodash": "^4.14.198",
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

@@ -5,10 +5,9 @@ import { TbWallet } from "react-icons/tb";
 import { TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
-import { AddTransaction } from "@components/transactions/AddTransaction";
 import { useTransactions } from "@hooks";
 import { formatCurrency } from "@utils/transaction";
-import Transactions from "@components/transactions";
+import { AddTransaction, Transactions } from "@components/transactions";
 
 const Dashboard = () => {
     const { statistics } = useTransactions({});
@@ -30,12 +29,7 @@ const Dashboard = () => {
                 <Statistics statistics={statistics} />
             </Card>
             <Card
-                className="row-span-2 col-span-2"
-                title="Invoices"
-            >
-            </Card>
-            <Card
-                className="col-span-2 row-span-3"
+                className="col-span-2 row-span-4"
                 title="Recent Transactions"
                 rightAction={(
                     <AddTransaction>
@@ -47,6 +41,11 @@ const Dashboard = () => {
                 )}
             >
                 <Transactions showRecent={true} />
+            </Card>
+            <Card
+                className="row-span-1 col-span-2"
+                title="Invoices"
+            >
             </Card>
             <Card title="Integrations" className="row-span-2 col-span-2">
             </Card>

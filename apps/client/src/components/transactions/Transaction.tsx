@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 
 type Props = TransactionType & {}
 const Transaction = ({
-    id,
+    id = '',
     name,
     type,
     amount,
