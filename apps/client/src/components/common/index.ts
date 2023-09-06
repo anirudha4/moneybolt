@@ -1,6 +1,7 @@
 import AppBar from "./AppBar"
 import Avatar from "./Avatar"
 import Header from "./Header"
+import IconContainer from "./IconContainer"
 import Logo from "./Logo"
 import Navbar from "./Navbar"
 import Sidebar from "./sidebar"
@@ -16,4 +17,5 @@ export {
     Sidebar,
     AppBar,
     Avatar,
+    IconContainer
 }

@@ -3,10 +3,11 @@ import classNames from "classnames"
 type Props = {
     src?: string
     character?: string | number,
-    size?: 'sm' | 'md' | 'lg'
+    size?: 'sm' | 'md' | 'lg',
+    children?: React.ReactNode
 }
 
-const Avatar = ({ src, character, size = 'sm' }: Props) => {
+const Avatar = ({ src, character, size = 'sm', children }: Props) => {
     const sizeMap = {
         sm: 'min-h-[30px] min-w-[30px] h-[30px] w-[30px]',
         md: 'min-h-[40px] min-w-[40px] h-[40px] w-[40px]',
@@ -31,6 +32,7 @@ const Avatar = ({ src, character, size = 'sm' }: Props) => {
                     {character}
                 </div>
             )}
+            {children}
         </div>
     )
 }

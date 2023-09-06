@@ -32,7 +32,8 @@ const AuthProvider = ({ children }: Props) => {
 
     const [user, setUser] = useState<UserType | null>(null);
     const [error, setError] = useState<string | null>(null);
-
+    console.log({ user });
+    
     // setters
     const clearError = () => setError(null);
 
@@ -80,7 +81,7 @@ const AuthProvider = ({ children }: Props) => {
             if (data) {
                 setUser(data);
                 setError(null);
-                navigate(PATHS.DASHBOARD);
+                window.location.href = window.location.origin + PATHS.DASHBOARD
             }
         },
         onError(error) {

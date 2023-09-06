@@ -10,7 +10,7 @@ type Props = {
 }
 const Popup = ({ children, trigger, positionClasses = 'right-0 top-2', width = 'w-[350px]' }: Props) => {
     return (
-        <Popover>
+        <Popover className={'z-[2000]'}>
             <Popover.Button as={React.Fragment}>
                 {trigger}
             </Popover.Button>
@@ -23,7 +23,7 @@ const Popup = ({ children, trigger, positionClasses = 'right-0 top-2', width = '
                 leaveTo="transform scale-95 opacity-0"
             >
                 <Popover.Panel className={classNames(
-                    "absolute z-10 bg-background",
+                    "absolute bg-background",
                     "rounded-md shadow-lg border",
                     width,
                     positionClasses

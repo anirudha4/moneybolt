@@ -84,6 +84,7 @@ const Select = forwardRef<HTMLInputElement, Props>(({ options, id, name, selecte
                             placeholder="Search Category"
                             displayValue={(option: Option) => option.label}
                             onChange={handleQueryChange}
+                            autoComplete="off"
                             className="px-2 outline-none block h-full text-accent-foreground bg-background w-full"
                             id={id}
                             autoFocus={autoFocus}
