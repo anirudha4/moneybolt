@@ -2,12 +2,14 @@ import React from "react";
 import classNames from "classnames";
 import { TbWallet } from "react-icons/tb";
 
-import { TransactionIcon } from "@components/common/icons";
+import { IntegrationIcon, InvoiceIcon, TransactionIcon } from "@components/common/icons";
 import { Button } from "@components/custom";
 import Statistics from "@components/dashboard/Statistics";
 import { useTransactions } from "@hooks";
 import { formatCurrency } from "@utils/transaction";
 import { AddTransaction, Transactions } from "@components/transactions";
+import { Empty } from "@components/common";
+import { FiArrowUpRight } from "react-icons/fi";
 
 const Dashboard = () => {
     const { statistics } = useTransactions({});
@@ -45,9 +47,26 @@ const Dashboard = () => {
             <Card
                 className="row-span-1 col-span-2"
                 title="Invoices"
+                rightAction={(
+                    <Button variant="primary-light" size="sm">
+                        Create Invoice
+                        <FiArrowUpRight size={16} />
+                    </Button>
+                )}
             >
+                <Empty text="No Invoices" secondary="You can club multiple transactions to create a invoice" icon={<InvoiceIcon stroke-width="1" />} />
             </Card>
-            <Card title="Integrations" className="row-span-2 col-span-2">
+            <Card
+                title="Integrations"
+                className="row-span-2 col-span-2"
+                rightAction={(
+                    <Button variant="primary-light" size="sm">
+                        Connect
+                        <FiArrowUpRight size={16} />
+                    </Button>
+                )}
+            >
+                <Empty text="No Integrations Configured" secondary="Import, manage and sync transactions with 3rd party services" icon={<IntegrationIcon strokeWidth={1} />} />
             </Card>
         </div>
     )

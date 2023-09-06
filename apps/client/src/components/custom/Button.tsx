@@ -7,7 +7,7 @@ import { measure } from "@lib/types"
 import Loader from "./Loader"
 
 const button = cva([
-    'px-5 font-medium outline-none cursor-pointer duration-200 flex items-center justify-center gap-3',
+    'px-5 font-medium outline-none cursor-pointer duration-200 flex items-center justify-center gap-3 group',
 ], {
     variants: {
         intent: {
@@ -18,6 +18,9 @@ const button = cva([
             destructive: ['bg-destructive text-destructive-foreground'],
             outline: ['bg-secondary border border-accent text-secondary-foreground hover:bg-accent'],
             disabled: ['bg-slate-200 text-slate-400 cursor-not-allowed'],
+            ['primary-light']: [
+                'bg-primary-foreground text-primary focus:ring hover:bg-primary-foreground-dark'
+            ],
         },
         size: {
             sm: ['md:h-8 h-7 px-3'],
@@ -35,7 +38,7 @@ const button = cva([
 
 // types and interfaces
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'disabled'
+    variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'disabled' | 'primary-light'
     size?: measure
     rounded?: measure | 'full',
     loading?: boolean

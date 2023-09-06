@@ -10,7 +10,7 @@ type Props = {
 }
 const Popup = ({ children, trigger, positionClasses = 'right-0 top-2', width = 'w-[350px]' }: Props) => {
     return (
-        <Popover className={'z-[2000]'}>
+        <Popover className={'z-30'}>
             <Popover.Button as={React.Fragment}>
                 {trigger}
             </Popover.Button>

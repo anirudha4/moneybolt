@@ -19,6 +19,7 @@
         --primary: #2563EB;
         --primary-dark: #1953d2;
         --primary-foreground: #f0f5ff;
+        --primary-foreground-dark: #e3ecff;
 
         --secondary: hsl(223, 33%, 96%);
         --secondary-foreground: hsl(216deg 45.77% 6.48%);

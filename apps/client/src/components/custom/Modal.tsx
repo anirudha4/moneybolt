@@ -30,7 +30,7 @@ const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }
                 onClick: handleOpen
             })}
             <Transition appear show={isOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={handleClose}>
+                <Dialog as="div" className="relative z-40" onClose={handleClose}>
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -45,7 +45,7 @@ const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }
 
                     <div className="fixed inset-0 overflow-y-auto">
                         <div className="flex min-h-full items-center justify-center
-                        text-center">
+                        text-center relative z-100">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"

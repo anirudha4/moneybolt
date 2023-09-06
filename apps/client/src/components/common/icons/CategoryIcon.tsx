@@ -3,9 +3,9 @@ import { HiCubeTransparent, HiOutlineColorSwatch } from "react-icons/hi";
 
 import { useAuth } from "@hooks"
 import { Category } from "@lib/types/resource-types";
-import { LuBookOpen, LuBox, LuCurrency, LuGift, LuHeartPulse, LuPiggyBank, LuPlane, LuShieldCheck, LuShirt, LuShoppingBag, LuUtensils, LuZap } from "react-icons/lu";
+import { LuBookOpen, LuBox, LuCurrency, LuHeartPulse, LuPiggyBank, LuPlane, LuShieldCheck, LuShirt, LuShoppingBag, LuUtensils, LuZap } from "react-icons/lu";
 import { BsGraphUpArrow, BsHouseDash } from 'react-icons/bs'
-import { RiBusLine } from 'react-icons/ri'
+import { RiBusLine, RiFundsBoxLine, RiGiftLine } from 'react-icons/ri'
 import { MdAccountBalance, MdOutlineMovieFilter } from 'react-icons/md'
 import { BiBitcoin } from "react-icons/bi";
 import { Tb3DCubeSphere } from "react-icons/tb";
@@ -52,7 +52,7 @@ const CategoryIcon = ({
             case 'Investments':
                 return <BsGraphUpArrow />
             case 'Gifts':
-                return <LuGift />
+                return <RiGiftLine />
             case 'Salary':
                 return <LuZap />
             case 'Freelancing':
@@ -60,7 +60,7 @@ const CategoryIcon = ({
             case 'Third Party Income':
                 return <LuCurrency />
             case 'Stocks':
-                return <BsGraphUpArrow />
+                return <RiFundsBoxLine />
             case 'Savings Accounts':
                 return <MdAccountBalance />
             case 'Cryptocurrency':
