@@ -2,7 +2,6 @@ import { ChangeEvent, DetailedHTMLProps, InputHTMLAttributes, createContext, for
 import { FieldError } from "react-hook-form"
 import { Combobox } from "@headlessui/react"
 import { BiError } from "react-icons/bi"
-import { ImDrawer } from "react-icons/im"
 import { TbCheck, TbSelector } from "react-icons/tb"
 import { motion } from "framer-motion"
 import classNames from "classnames"
@@ -104,7 +103,14 @@ const Select = forwardRef<HTMLInputElement, Props>(({ options, id, name, selecte
                         )}>
                             {filteredOptions.map((option) => <Option key={option.value} option={option} />)}
                             {filteredOptions.length === 0 && (
-                                <ImDrawer />
+                                <div
+                                    className={mergeClasses(classNames(
+                                        "p-2 flex items-center justify-center cursor-pointer rounded"
+                                    ))}>
+                                        <div className="text-muted-foreground">
+                                            No options 
+                                        </div>
+                                </div>
                             )}
                         </Combobox.Options>
                     )}
