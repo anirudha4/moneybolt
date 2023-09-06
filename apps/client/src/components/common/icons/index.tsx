@@ -1,6 +1,6 @@
 import React from "react";
-import { TbPlugConnected, TbReceipt } from "react-icons/tb";
-import { RxCardStackMinus } from "react-icons/rx";
+import { TbPlugConnected, TbReceipt, TbArrowsExchange } from "react-icons/tb";
+// import { RxCardStackMinus } from "react-icons/rx";
 
 type Props = {
     size?: number,
@@ -9,7 +9,7 @@ type Props = {
 
 export const TransactionIcon = ({ size = 18, ...props }: Props) => {
     return (
-        <RxCardStackMinus size={size} {...props} />
+        <TbArrowsExchange size={size} {...props} />
     )
 }
 
