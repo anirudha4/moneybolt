@@ -17,6 +17,18 @@
     gap: 10px;
 }
 
+
+/* bottom bar */
+.bottom-bar {
+    @apply hidden h-[70px] fixed bottom-0 left-0 right-0 z-50 bg-background border-t p-2;
+}
+
+.active-indicator {
+    @apply w-[60px] h-[100%] bg-primary-foreground-dark absolute top-[50%] rounded;
+    transition: transform .2s ease-in-out;
+}
+
+
 @media (max-width: 1300px) {
     .dashboard {
         grid-template-columns: 1fr !important;
@@ -34,6 +46,9 @@
 
     .sidebar {
         display: none;
+    }
+    .bottom-bar {
+        display: block;
     }
 }
 

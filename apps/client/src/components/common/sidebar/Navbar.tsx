@@ -4,9 +4,8 @@ import { useUI } from "@hooks";
 import { mergeClasses } from "@utils";
 import classNames from "classnames";
 import React from "react";
-import { BiUser } from "react-icons/bi";
 import { LuSettings2, LuZap } from "react-icons/lu";
-import { TbLayoutDashboard } from "react-icons/tb";
+import { TbLayoutDashboard, TbUser } from "react-icons/tb";
 import { NavLink } from "react-router-dom";
 import { IntegrationIcon, InvoiceIcon, TransactionIcon } from "../icons";
 
@@ -50,7 +49,7 @@ const Navbar = ({ }: Props) => {
                         Account
                     </Title>
                     <div className="flex flex-col gap-1">
-                        <Link label="Profile" to={PATHS.ACCOUNT} icon={<BiUser size={18} />} />
+                        <Link label="Profile" to={PATHS.ACCOUNT} icon={<TbUser size={18} />} />
                         <Link label="Preferences" to={PATHS.WORKSPACE} icon={<LuZap size={18} />} />
                     </div>
                 </div>

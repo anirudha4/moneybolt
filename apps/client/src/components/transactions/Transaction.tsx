@@ -24,7 +24,7 @@ const Transaction = ({
             "border rounded p-3 h-fit flex flex-col gap-3 relative",
             "hover:shadow transition-shadow group"
         )}>
-            <Link className="sm:opacity-0 absolute top-2 right-2 group-hover:opacity-100 transition-all duration-200" to={PATHS.TRANSACTION_FROM_DASHBOARD.replace(':transaction_id', id)}>
+            <Link replace className="sm:opacity-0 absolute top-2 right-2 group-hover:opacity-100 transition-all duration-200" to={PATHS.TRANSACTION_FROM_DASHBOARD.replace(':transaction_id', id)}>
                 <IconContainer icon={<TbEdit />} />
             </Link>
             <div className="flex items-center gap-3">

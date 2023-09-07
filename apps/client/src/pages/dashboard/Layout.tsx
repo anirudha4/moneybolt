@@ -1,4 +1,5 @@
 import { AppBar, Sidebar } from "@components/common";
+import BottomBar from "@components/common/bottom-bar";
 import { PATHS } from "@config/constants/paths";
 import { useAuth } from "@hooks";
 import { useUI } from "@hooks";
@@ -20,6 +21,7 @@ const Layout = () => {
             }}
         >
             <Sidebar />
+            <BottomBar />
             <div className="flex flex-col">
                 <AppBar />
                 <div className="flex-1 p-4 bg-muted overflow-auto" style={{ maxHeight: 'calc(100vh - 4rem)' }}>
