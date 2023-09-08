@@ -42,7 +42,7 @@ const TransactionExpand = ({ id }: Props) => {
     const onClose = () => navigate(prevPath, { replace: true });
     return (
         <Drawer onClose={onClose} title={'Transaction Details'} key={id} icon={<TransactionIcon />}>
-            <div className="p-4">
+            <div className="p-6 sm:p-8">
                 <div className="-ml-2 my-3">
                     <NameField
                         name="name"
