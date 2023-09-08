@@ -24,6 +24,7 @@ model user_account {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  wallet    wallet[]
 
   @@unique([id, organizationId])
 }
@@ -41,6 +42,7 @@ model organization {
   transaction  transaction[]
   tag          tag[]
   category     category[]
+  wallet       wallet[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,12 +69,14 @@ model transaction {
   type           String
   date           DateTime
   categoryId     String?
+  walletId       String?
 
   // relations
   user_account user_account @relation(fields: [userId], references: [id])
   organization organization @relation(fields: [organizationId], references: [id])
   tag          tag[]
   category     category?    @relation(fields: [categoryId], references: [id])
+  wallet       wallet?      @relation(fields: [walletId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -99,6 +103,23 @@ model category {
   organizationId String
 
   // relations
+  organization organization  @relation(fields: [organizationId], references: [id])
+  transaction  transaction[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model wallet {
+  id             String  @id() @default(uuid())
+  name           String
+  userId         String
+  organizationId String
+  amount         Float
+  description    String?
+
+  // relations
+  user_account user_account  @relation(fields: [userId], references: [id])
   organization organization  @relation(fields: [organizationId], references: [id])
   transaction  transaction[]
 

@@ -1,13 +1,12 @@
-import { Avatar, IconContainer } from "@components/common"
+import { Avatar } from "@components/common"
 import CategoryIcon from "@components/common/icons/CategoryIcon"
-import { PATHS } from "@config/constants/paths"
 import { Transaction as TransactionType } from "@lib/types/resource-types"
 import { mergeClasses } from "@utils"
 import { TRANSACTION_TYPES } from "@utils/constants"
-import { formatCurrency } from "@utils/transaction"
+import { formatCurrency, formatTransactionDate } from "@utils/transaction"
 import classNames from "classnames"
-import { TbEdit } from "react-icons/tb"
-import { Link } from "react-router-dom"
+import { useMemo } from "react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 type Props = TransactionType & {}
 const Transaction = ({
@@ -18,15 +17,21 @@ const Transaction = ({
     date,
     categoryId
 }: Props) => {
+    const navigate = useNavigate();
+    const { pathname } = useLocation();
+    const routeTo = useMemo(() => {
+        const screen = pathname.split('/')[2];
+        return `/app/${screen}/view/${id}`;
+    }, [id, navigate, pathname])
     return (
-
-        <div className={classNames(
-            "border rounded p-3 h-fit flex flex-col gap-3 relative",
-            "hover:shadow transition-shadow group"
-        )}>
-            <Link replace className="sm:opacity-0 absolute top-2 right-2 group-hover:opacity-100 transition-all duration-200" to={PATHS.TRANSACTION_FROM_DASHBOARD.replace(':transaction_id', id)}>
-                <IconContainer icon={<TbEdit />} />
-            </Link>
+        <Link
+            className={classNames(
+                "border rounded p-3 h-fit flex flex-col gap-3 relative cursor-pointer",
+                "hover:shadow transition-shadow group z-0"
+            )}
+            replace
+            to={routeTo}
+        >
             <div className="flex items-center gap-3">
                 <Avatar size="md">
                     <CategoryIcon categoryId={categoryId} />
@@ -36,7 +41,7 @@ const Transaction = ({
                         {name}
                     </div>
                     <div className="text-[10px] uppercase text-muted-foreground">
-                        {new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })}
+                        {formatTransactionDate(date)}
                     </div>
                 </div>
             </div>
@@ -49,7 +54,7 @@ const Transaction = ({
                 </div>
                 <Type type={type} />
             </div>
-        </div>
+        </Link>
     )
 }
 export default Transaction
@@ -61,9 +66,9 @@ export const Type = ({ type }: TypeProps) => {
     const className = type === TRANSACTION_TYPES.EXPENSE ? 'bg-destructive-foreground text-destructive' : 'bg-primary-foreground text-primary'
     const classNameBlob = type === TRANSACTION_TYPES.EXPENSE ? 'bg-destructive' : 'bg-primary'
     return (
-        <div className={classNames("flex items-center gap-2 px-3 h-5 rounded-full w-fit", className)}>
+        <div className={classNames("flex items-center gap-2 px-3 h-7 sm:h-5 rounded-full w-fit", className)}>
             <div className={classNames("h-2 w-2 rounded-full", classNameBlob)}></div>
-            <div className="uppercase tracking-wider text-[10px] font-semibold">
+            <div className="uppercase tracking-wider text-xs sm:text-[10px] font-semibold">
                 {type}
             </div>
         </div>

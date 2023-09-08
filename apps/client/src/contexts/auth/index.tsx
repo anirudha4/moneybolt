@@ -32,8 +32,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const [user, setUser] = useState<UserType | null>(null);
     const [error, setError] = useState<string | null>(null);
-    console.log({ user });
-    
+
     // setters
     const clearError = () => setError(null);
 

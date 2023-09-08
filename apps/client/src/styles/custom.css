@@ -1,0 +1,8 @@
+/* DRAWER */
+.drawer {
+    position: fixed;
+    right: 0;
+    z-index: 100;
+    width: 100%;
+    @apply bg-background h-screen border-l shadow-sm sm:max-w-[450px];
+}

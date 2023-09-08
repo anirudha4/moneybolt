@@ -24,7 +24,7 @@
 }
 
 .active-indicator {
-    @apply w-[60px] h-[100%] bg-primary-foreground-dark absolute top-[50%] rounded;
+    @apply w-[60px] h-[100%] bg-primary-foreground absolute top-[50%] rounded;
     transition: transform .2s ease-in-out;
 }
 

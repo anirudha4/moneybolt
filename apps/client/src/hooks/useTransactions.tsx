@@ -3,7 +3,7 @@ import axios from "axios";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 import { Statistic } from "@lib/types";
-import { Transaction, TransactionWithCategory } from "@lib/types/resource-types";
+import { Transaction } from "@lib/types/resource-types";
 import { getTransactionStatistics } from "@utils/transaction";
 import useAuth from "./useAuth";
 
@@ -18,7 +18,7 @@ const service = {
         return data;
     },
     updateTransaction: async (payload: Transaction) => {
-        const { data } = await axios.put<Transaction>(`/api/transactions/${payload.id}`, payload)
+        const { data } = await axios.put<Transaction>(`/api/transactions/${payload?.id}`, payload)
         return data;
     }
 }
@@ -36,7 +36,7 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
     const { data: transactions, isLoading, error } = useQuery(key, service.getTransactions, {
         refetchOnWindowFocus: false
     });
-    const transaction: TransactionWithCategory = useMemo<TransactionWithCategory>((): TransactionWithCategory => {
+    const transaction: Transaction | null = useMemo<Transaction | null>((): Transaction | null => {
         let rawTransaction = transactions?.find(transaction => transaction.id === id)
         if (rawTransaction) {
             const category = user?.categories?.find(category => category.id === rawTransaction?.categoryId);
@@ -78,7 +78,7 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
             if (transaction) {
                 queryClient.setQueryData<Transaction[]>(key, (oldData = []) => {
                     return oldData.map(oldTransaction => {
-                        if (oldTransaction.id === transaction.id) {
+                        if (oldTransaction?.id === transaction.id) {
                             return transaction
                         }
                         return oldTransaction
@@ -88,7 +88,7 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
         }
     });
 
-    const updateTransaction = (payload: Transaction) => updateTransactionMutation(payload)
+    const updateTransaction = async (payload: Transaction) => await updateTransactionMutation(payload)
 
 
     return {

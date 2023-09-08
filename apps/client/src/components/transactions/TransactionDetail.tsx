@@ -1,4 +1,4 @@
-import { TransactionWithCategory } from "@lib/types/resource-types"
+import { Transaction } from "@lib/types/resource-types"
 import { formatCurrency } from "@utils/transaction"
 import classNames from "classnames"
 import React, { ReactElement } from "react"
@@ -7,7 +7,7 @@ import { TbPencil } from "react-icons/tb"
 
 type Props = {
     setIsEditing?: (value: boolean) => void,
-    transaction: TransactionWithCategory | undefined
+    transaction: Transaction | undefined
 }
 const TransactionDetail = ({ transaction, setIsEditing = () => { } }: Props) => {
     return (

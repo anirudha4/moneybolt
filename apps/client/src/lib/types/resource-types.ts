@@ -8,13 +8,23 @@ export type Transaction = {
     id?: string
     name: string
     amount: number
-    date: Date
+    date: string
     type: 'income' | 'expense' | 'investment'
-    categoryId: string
+    categoryId: string,
+    walletId: string,
+    category?: Category
+    description?: string
 }
 export type Category = {
     id: string
     name: string;
     color: string;
 }
-export type TransactionWithCategory = Transaction & { category: Category | undefined } | null
+export type Type = 'income' | 'expense' | 'investment'
+export type Wallet = {
+    id: string
+    name: string
+    amount: number
+    userId: string
+    organizationId: string
+}

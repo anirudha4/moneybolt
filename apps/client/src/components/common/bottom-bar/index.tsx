@@ -31,9 +31,16 @@ const getTransform = (tab: number) => {
 
     }
 }
+const PATH_MAP = {
+    [PATHS.DASHBOARD]: 0,
+    [PATHS.TRANSACTIONS]: 1,
+    [PATHS.INVOICES]: 2,
+    [PATHS.INTEGRATIONS]: 3,
+    [PATHS.ACCOUNT]: 4,
+}
 
 const BottomBar = ({ }: Props) => {
-    const [activeTab, setActiveTab] = useState(0);
+    const [activeTab, setActiveTab] = useState(PATH_MAP[window.location.pathname]);
     const handleActiveTabChange = (index: number) => {
         setActiveTab(index);
     }
@@ -87,7 +94,7 @@ export const Tab = ({ path, icon, value }: TabProps) => {
             {React.cloneElement(icon, {
                 size: 28,
                 className: 'transition-all duration-200',
-                strokeWidth: activeTab === value ? 2 : 1
+                strokeWidth: activeTab === value ? 2 : 1.5
             })}
         </div>
     )

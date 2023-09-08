@@ -6,19 +6,20 @@ import { Button, Field, NumberField } from "@components/custom";
 import SegmentedControl from "@components/custom/form/SegmentedControl";
 import { transactionFormValues, transactionSchema } from "@components/transactions/AddTransaction";
 
-import { useAuth } from "@hooks";
-import { Transaction, TransactionWithCategory } from "@lib/types/resource-types";
+import { useAuth, useWallet } from "@hooks";
+import { Transaction } from "@lib/types/resource-types";
 import { TRANSACTION_TYPES } from "@utils/constants";
 import { makeOptions } from "@utils";
 
 type Props = {
-    transaction: TransactionWithCategory | undefined
+    transaction: Transaction | undefined
     updateTransaction: (values: Transaction) => void
     isUpdatingTransaction: boolean
 }
 const EditTransaction = ({ transaction, isUpdatingTransaction, updateTransaction }: Props) => {
 
     const { user } = useAuth();
+    const { wallets = [] } = useWallet({});
     const {
         register,
         handleSubmit,
@@ -37,20 +38,23 @@ const EditTransaction = ({ transaction, isUpdatingTransaction, updateTransaction
             amount: transaction?.amount || 0,
             type: transaction?.type || 'expense',
             categoryId: transaction?.categoryId || '',
-            date: new Date(transaction?.date || new Date()),
-            description: ''
+            date: new Date(transaction?.date || new Date()).toString(),
+            description: '',
+            walletId: transaction?.walletId || ''
         }
     });
 
 
     const categoryOptions = useMemo(() => makeOptions(user?.categories), [user?.categories])
+    const walletOptions = useMemo(() => makeOptions(wallets), [wallets])
 
     // handlers
     const onSubmit = async (values: transactionFormValues) => {
         await updateTransaction({ id: transaction?.id, ...values });
     }
     const handleCategoryChange = (value: string) => setValue("categoryId", value)
-    
+    const handleWalletChange = (value: string) => setValue("walletId", value)
+
     return (
         <form className="p-5 grid gap-4" autoFocus={false} onSubmit={handleSubmit(onSubmit)}>
             <Field error={formState.errors.name} id="name" {...register('name', { required: true })} label="Name" placeholder="Eg. Bring Milk" autoFocus={false} autoComplete="off" />
@@ -66,6 +70,7 @@ const EditTransaction = ({ transaction, isUpdatingTransaction, updateTransaction
                 notation="Rs."
             />
             <SegmentedControl
+                name={"type"}
                 error={formState.errors.type}
                 options={Object.keys(TRANSACTION_TYPES).map(type => ({
                     label: type,
@@ -83,6 +88,20 @@ const EditTransaction = ({ transaction, isUpdatingTransaction, updateTransaction
                         label="Category"
                         options={categoryOptions}
                         onSelectValue={handleCategoryChange}
+                    />
+                )}
+            />
+            <Controller
+                name="walletId"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                    <Select
+                        ref={ref}
+                        selected={value}
+                        label="Choose Wallet"
+                        options={walletOptions}
+                        onSelectValue={handleWalletChange}
+                        error={formState.errors.walletId}
                     />
                 )}
             />

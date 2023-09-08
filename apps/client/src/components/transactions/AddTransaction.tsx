@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Field, NumberField } from "@components/custom";
 import Popup from "@components/custom/Popup";
 import SegmentedControl from "@components/custom/form/SegmentedControl";
-import { useAuth, useTransactions } from "@hooks";
+import { useAuth, useTransactions, useWallet } from "@hooks";
 import { TRANSACTION_TYPES } from "@utils/constants";
 import Select from "@components/custom/form/Select";
 import { makeOptions } from "@utils";
@@ -30,14 +30,16 @@ export const transactionSchema = z.object({
     amount: z.number().positive(),
     type: z.enum(['expense', 'income', 'investment']).default("expense"),
     categoryId: z.string(),
-    date: z.date().default(new Date()),
+    date: z.string().default(new Date().toString()),
     description: z.string().optional(),
+    walletId: z.string()
 });
 
 export type transactionFormValues = z.infer<typeof transactionSchema>
 
 export const TransactionForm = () => {
     const { createTransaction } = useTransactions({});
+    const { wallets = [] } = useWallet({});
     const { user } = useAuth();
     const {
         control,
@@ -51,6 +53,7 @@ export const TransactionForm = () => {
     });
 
     const categoryOptions = useMemo(() => makeOptions(user?.categories), [user?.categories])
+    const walletOptions = useMemo(() => makeOptions(wallets), [wallets])
 
     const onSubmit = async (values: transactionFormValues) => {
         const payload = {
@@ -60,11 +63,12 @@ export const TransactionForm = () => {
         reset();
     }
     const handleCategoryChange = (value: string) => setValue("categoryId", value)
-    console.log(formState.errors);
+    const handleWalletChange = (value: string) => setValue("walletId", value)
     
     return (
         <form className="p-3 grid gap-2" onSubmit={handleSubmit(onSubmit)}>
             <SegmentedControl
+                name="type"
                 error={formState.errors.type}
                 options={Object.keys(TRANSACTION_TYPES).map(type => ({
                     label: type,
@@ -95,6 +99,20 @@ export const TransactionForm = () => {
                         options={categoryOptions}
                         onSelectValue={handleCategoryChange}
                         error={formState.errors.categoryId}
+                    />
+                )}
+            />
+            <Controller
+                name="walletId"
+                control={control}
+                render={({ field: { value, ref } }) => (
+                    <Select
+                        ref={ref}
+                        selected={value}
+                        label="Choose Wallet"
+                        options={walletOptions}
+                        onSelectValue={handleWalletChange}
+                        error={formState.errors.walletId}
                     />
                 )}
             />

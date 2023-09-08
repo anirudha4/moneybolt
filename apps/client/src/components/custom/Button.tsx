@@ -21,8 +21,10 @@ const button = cva([
             ['primary-light']: [
                 'bg-primary-foreground text-primary focus:ring hover:bg-primary-foreground-dark'
             ],
+            ghost: ['bg-transparent text-secondary-foreground hover:bg-secondary focus:ring focus:ring-accent']
         },
         size: {
+            xs: ['md:h-6 h-6 text-xs px-2 gap-1'],
             sm: ['md:h-8 h-7 px-3'],
             md: ['md:h-10 h-9'],
             lg: ['md:h-12 h-11'],
@@ -38,8 +40,8 @@ const button = cva([
 
 // types and interfaces
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-    variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'disabled' | 'primary-light'
-    size?: measure
+    variant?: 'primary' | 'secondary' | 'destructive' | 'outline' | 'disabled' | 'primary-light' | 'ghost'
+    size?: measure | 'xs'
     rounded?: measure | 'full',
     loading?: boolean
 }

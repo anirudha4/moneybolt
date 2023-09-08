@@ -11,7 +11,7 @@ import { field } from "./Field"
 import { measure } from "@lib/types"
 import { mergeClasses } from "@utils"
 
-type Option = {
+export type Option = {
     label: string,
     value: string
 }
@@ -32,7 +32,7 @@ type SelectContextType = {
 
 export const SelectContext = createContext<SelectContextType>({
     selected: '',
-    onChange: (option: Option) => console.log(option),
+    onChange: () => { },
     filteredOptions: []
 });
 
@@ -99,7 +99,7 @@ const Select = forwardRef<HTMLInputElement, Props>(({ options, id, name, selecte
                     )}
                     {!children && (
                         <Combobox.Options className={classNames(
-                            "absolute mt-1 p-1 bg-background rounded-md shadow border w-full max-h-[280px] overflow-auto"
+                            "absolute z-40 mt-1 p-1 bg-background rounded-md shadow border w-full max-h-[280px] overflow-auto"
                         )}>
                             {filteredOptions.map((option) => <Option key={option.value} option={option} />)}
                             {filteredOptions.length === 0 && (
@@ -107,9 +107,9 @@ const Select = forwardRef<HTMLInputElement, Props>(({ options, id, name, selecte
                                     className={mergeClasses(classNames(
                                         "p-2 flex items-center justify-center cursor-pointer rounded"
                                     ))}>
-                                        <div className="text-muted-foreground">
-                                            No options 
-                                        </div>
+                                    <div className="text-muted-foreground">
+                                        No options
+                                    </div>
                                 </div>
                             )}
                         </Combobox.Options>

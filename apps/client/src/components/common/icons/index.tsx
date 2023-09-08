@@ -1,6 +1,5 @@
 import React from "react";
 import { TbPlugConnected, TbReceipt, TbArrowsExchange } from "react-icons/tb";
-// import { RxCardStackMinus } from "react-icons/rx";
 
 type Props = {
     size?: number,

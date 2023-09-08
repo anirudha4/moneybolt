@@ -10,9 +10,7 @@ import { AccessTokensService } from "./access-tokens/access-tokens.service";
 import { accessTokenDto } from "./access-tokens/dto/access-token.dto";
 import { RequestWithUserDto } from "src/users/users.dto";
 import { user_account } from "@prisma/client";
-import { CategoriesService } from "src/categories/categories.service";
 import { CATEGORIES } from "src/utils/constants";
-import { OrganizationsService } from "src/organizations/organizations.service";
 
 @Injectable()
 export class AuthService {
@@ -43,6 +41,14 @@ export class AuthService {
                 }
             }
         });
+        await this.prisma.wallet.create({
+            data: {
+                name: 'Default Wallet',
+                amount: 1000,
+                userId: user.id,
+                organizationId: user.organizationId
+            }
+        })
 
         return { user };
     }

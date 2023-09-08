@@ -1,24 +1,22 @@
 import React, { Fragment, useState } from "react";
+import classNames from "classnames";
 import { Dialog, Transition } from "@headlessui/react"
 import { FiX } from "react-icons/fi";
-import { useLocation, useNavigate } from "react-router-dom";
-import classNames from "classnames";
 
 type Props = {
     children: React.ReactNode,
     trigger: React.ReactNode,
     isOpen?: boolean,
     title: string | React.ReactNode | undefined,
-    action?: React.ReactNode
+    action?: React.ReactNode,
+    onClose?: () => void
 }
-const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }: Props) => {
+const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action, onClose }: Props) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
-    const navigate = useNavigate();
-    const prevPath = useLocation().pathname.split('view')[0];
 
     const handleOpen = () => setIsOpen(true);
     const handleClose = () => {
-        navigate(prevPath);
+        onClose && onClose();
         setIsOpen(false)
     };
 
@@ -44,8 +42,7 @@ const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }
                     </Transition.Child>
 
                     <div className="fixed inset-0 overflow-y-auto">
-                        <div className="flex min-h-full items-center justify-center
-                        text-center relative z-100">
+                        <div className="flex min-h-full items-start mt-2 md:mt-0 md:items-center justify-center text-center relative z-100">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -55,7 +52,7 @@ const Modal = ({ trigger, children, title, isOpen: defaultOpen = false, action }
                                 leaveFrom="opacity-100 scale-100"
                                 leaveTo="opacity-0 scale-95"
                             >
-                                <Dialog.Panel className="w-full max-w-sm lg:max-w-md transform rounded bg-white text-left align-middle shadow-xl transition-all">
+                                <Dialog.Panel className="w-full max-w-sm lg:max-w-md transform rounded bg-background text-left align-middle shadow-xl transition-all">
                                     <Dialog.Title
                                         as="h3"
                                         className="font-medium text-secondary-foreground px-4 border-b flex items-center justify-between h-[60px] gap-2"

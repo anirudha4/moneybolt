@@ -11,3 +11,6 @@ export const getTransactionStatistics = (transactions: Transaction[]) => {
 export const formatCurrency = (amount: number = 0, currency: string = 'INR', lang = 'en-IN') => {
     return new Intl.NumberFormat(lang, { style: 'currency', currency }).format(amount);
 }
+export const formatTransactionDate = (date: Date | string) => {
+    return new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+}

@@ -19,4 +19,7 @@ export class CreateTransactionDto {
 
     @IsNotEmpty()
     date: string
+
+    @IsNotEmpty()
+    walletId: string
 }

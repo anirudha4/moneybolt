@@ -15,7 +15,7 @@ const Layout = () => {
 
     return (
         <div
-            className="app-grid"
+            className="app-grid pb-[60px] sm:pb-0"
             style={{
                 gridTemplateColumns: isSidebarOpen ? '240px 1fr' : '30px 1fr'
             }}

@@ -7,6 +7,8 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import App from './App.tsx'
 // assets
 import './index.css';
+import 'react-day-picker/dist/style.css';
+
 import { AuthProvider, UIProvider } from '@contexts';
 
 

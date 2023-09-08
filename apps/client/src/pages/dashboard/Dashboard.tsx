@@ -36,7 +36,7 @@ const Dashboard = () => {
                 rightAction={(
                     <AddTransaction>
                         <Button size="sm">
-                            Create Transaction
+                            Add Transaction
                             <TransactionIcon size={16} />
                         </Button>
                     </AddTransaction>
@@ -54,7 +54,7 @@ const Dashboard = () => {
                     </Button>
                 )}
             >
-                <Empty text="No Invoices" secondary="You can club multiple transactions to create a invoice" icon={<InvoiceIcon stroke-width="1" />} />
+                <Empty text="No Invoices" secondary="You can club multiple transactions to create a invoice" icon={<InvoiceIcon strokeWidth="1" />} />
             </Card>
             <Card
                 title="Integrations"

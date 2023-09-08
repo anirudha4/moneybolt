@@ -12,7 +12,7 @@ export class TransactionsService {
   constructor(private prismaService: PrismaService) { }
   async create(createTransactionDto: CreateTransactionDto, req: RequestWithUserDto) {
     const { user } = req;
-    const { name, amount, type, categoryId, date } = createTransactionDto;
+    const { name, amount, type, categoryId, date, walletId } = createTransactionDto;
     const transactionValues = {
       name,
       amount,
@@ -21,10 +21,10 @@ export class TransactionsService {
       userId: user?.id,
       categoryId: categoryId,
       organizationId: user?.organizationId,
-
+      walletId,
     }
     const transaction = await this.prismaService.transaction.create({
-      data: transactionValues,
+      data: transactionValues
     });
     return transaction;
   }
@@ -48,11 +48,14 @@ export class TransactionsService {
     if (!transaction) {
       throw new Error('Transaction not found')
     }
-    const transactionValues = pick(updateTransactionDto, ['name', 'amount', 'type', 'categoryId', 'date', 'description'])
+    const transactionValues = pick(updateTransactionDto, ['name', 'amount', 'type', 'categoryId', 'date', 'description', 'walletId'])
 
     transaction = await this.prismaService.transaction.update({
       where: { id },
-      data: transactionValues
+      data: {
+        ...transactionValues,
+        date: new Date(transactionValues.date)
+      }
     });
 
     return transaction;

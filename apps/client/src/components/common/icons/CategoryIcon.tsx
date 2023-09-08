@@ -11,11 +11,15 @@ import { BiBitcoin } from "react-icons/bi";
 import { Tb3DCubeSphere } from "react-icons/tb";
 
 type Props = {
-    categoryId: string
+    categoryId: string,
+    size?: number,
+    className?: string
 }
 
 const CategoryIcon = ({
-    categoryId
+    categoryId,
+    size = 16,
+    className
 }: Props) => {
     const { user } = useAuth();
 
@@ -72,6 +76,9 @@ const CategoryIcon = ({
         }
     }, [user?.categories]);
 
-    return icon
+    return React.cloneElement(icon, {
+        size,
+        className
+    })
 }
 export default CategoryIcon

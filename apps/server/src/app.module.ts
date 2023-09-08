@@ -9,6 +9,7 @@ import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
 import { TransactionsModule } from './transactions/transactions.module';
 import { CategoriesModule } from './categories/categories.module';
+import { WalletsModule } from './wallets/wallets.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CategoriesModule } from './categories/categories.module';
     AccessTokensModule,
     TransactionsModule,
     CategoriesModule,
+    WalletsModule,
   ],
   controllers: [],
   providers: [],
