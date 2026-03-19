@@ -14,6 +14,12 @@ import { AuthProvider, UIProvider } from '@contexts';
 
 const queryClient = new QueryClient()
 
+pendo.initialize({
+  visitor: {
+    id: ''
+  }
+});
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>

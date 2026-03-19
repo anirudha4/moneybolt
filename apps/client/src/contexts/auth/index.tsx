@@ -46,6 +46,16 @@ const AuthProvider = ({ children }: Props) => {
                     categories: category,
                     organization
                 })
+
+                pendo.identify({
+                    visitor: {
+                        id: user.email,
+                        email: user.email,
+                        full_name: user.name,
+                        avatar_url: user.avatarUrl || '',
+                        organization_id: organization.id || ''
+                    }
+                });
             }
         },
         retry: false,
