@@ -60,6 +60,13 @@ export const TransactionForm = () => {
             ...values
         }
         await createTransaction(payload);
+        pendo.track("transaction_created", {
+            transaction_type: values.type,
+            amount: values.amount,
+            category_id: values.categoryId,
+            wallet_id: values.walletId,
+            has_description: Boolean(values.description).toString()
+        });
         reset();
     }
     const handleCategoryChange = (value: string) => setValue("categoryId", value)

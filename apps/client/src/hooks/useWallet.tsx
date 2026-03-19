@@ -10,6 +10,10 @@ const service = {
     },
     createWallet: async (payload: Omit<Wallet, 'id'>) => {
         const { data } = await axios.post<Wallet>('/api/wallets', payload)
+        pendo.track("wallet_created", {
+            wallet_name: payload.name,
+            initial_amount: payload.amount
+        });
         return data;
     },
     updateTransaction: async (payload: Wallet) => {
