@@ -76,6 +76,13 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
     const { mutate: updateTransactionMutation, isLoading: isUpdatingTransaction } = useMutation(['update-transaction', { id }], service.updateTransaction, {
         onSettled: (transaction) => {
             if (transaction) {
+                pendo.track("transaction_updated", {
+                    transaction_id: transaction.id,
+                    transaction_type: transaction.type,
+                    amount: transaction.amount,
+                    category_id: transaction.categoryId,
+                    wallet_id: transaction.walletId
+                });
                 queryClient.setQueryData<Transaction[]>(key, (oldData = []) => {
                     return oldData.map(oldTransaction => {
                         if (oldTransaction?.id === transaction.id) {

@@ -54,6 +54,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const { mutate: logoutMutation, isLoading: logoutLoading } = useMutation('auth/logout', logout, {
         onSettled() {
+            pendo.track("user_logged_out", {});
             window.location.href = import.meta.env.BASE_URL
         },
     });
@@ -62,10 +63,21 @@ const AuthProvider = ({ children }: Props) => {
         onSettled(response) {
             const data = response?.data.user;
             if (data) {
+                pendo.track("user_signed_up", {
+                    user_name: data.name,
+                    user_email: data.email,
+                    organization_name: data.organization?.name
+                });
                 navigate(PATHS.AUTH + '?type=login')
             }
         },
         onError(error) {
+            const error_message = isAxiosError(error)
+                ? error.response?.data?.message
+                : "Something went wrong!";
+            pendo.track("signup_failed", {
+                error_message: error_message
+            });
             if (isAxiosError(error)) {
                 setError(error.response?.data?.message)
                 return error.response?.data?.message
@@ -78,12 +90,22 @@ const AuthProvider = ({ children }: Props) => {
             const data = response?.data?.user
 
             if (data) {
+                pendo.track("user_logged_in", {
+                    user_email: data.email,
+                    login_method: "email_password"
+                });
                 setUser(data);
                 setError(null);
                 window.location.href = window.location.origin + PATHS.DASHBOARD
             }
         },
         onError(error) {
+            const error_message = isAxiosError(error)
+                ? error.response?.data?.message
+                : "Something went wrong!";
+            pendo.track("login_failed", {
+                error_message: error_message
+            });
             if (isAxiosError(error)) {
                 setError(error.response?.data?.message)
                 return error.response?.data?.message
