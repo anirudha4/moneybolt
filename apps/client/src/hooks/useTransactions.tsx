@@ -5,6 +5,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { Statistic } from "@lib/types";
 import { Transaction } from "@lib/types/resource-types";
 import { getTransactionStatistics } from "@utils/transaction";
+import { trackEvent } from "@utils/analytics";
 import useAuth from "./useAuth";
 
 const key = 'transactions'
@@ -28,6 +29,7 @@ type useTransactionsProps = {
     id?: string
 }
 const OFFSET = 20;
+const TRACKED_TRANSACTION_FIELDS = ['name', 'amount', 'date', 'type', 'categoryId', 'walletId', 'description'] as const;
 
 const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
     const { user } = useAuth();
@@ -37,7 +39,7 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
         refetchOnWindowFocus: false
     });
     const transaction: Transaction | null = useMemo<Transaction | null>((): Transaction | null => {
-        let rawTransaction = transactions?.find(transaction => transaction.id === id)
+        const rawTransaction = transactions?.find(transaction => transaction.id === id)
         if (rawTransaction) {
             const category = user?.categories?.find(category => category.id === rawTransaction?.categoryId);
             
@@ -69,6 +71,17 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
                 queryClient.setQueryData<Transaction[]>(key, (oldData = []) => {
                     return [...oldData, transaction]
                 })
+                // Pendo: transaction saved successfully via POST /api/transactions
+                const category = user?.categories?.find(category => category.id === transaction.categoryId);
+                trackEvent('transaction_created', {
+                    type: transaction.type,
+                    amount: Number(transaction.amount),
+                    categoryId: transaction.categoryId,
+                    category_name: category?.name ?? 'unknown',
+                    walletId: transaction.walletId,
+                    has_description: Boolean(transaction.description),
+                    source_page: window.location.pathname
+                });
             }
         }
     });
@@ -76,6 +89,11 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
     const { mutate: updateTransactionMutation, isLoading: isUpdatingTransaction } = useMutation(['update-transaction', { id }], service.updateTransaction, {
         onSettled: (transaction) => {
             if (transaction) {
+                // Pendo: compare with the cached transaction (before cache update) to find changed fields
+                const previousTransaction = queryClient.getQueryData<Transaction[]>(key)?.find(oldTransaction => oldTransaction?.id === transaction.id);
+                const changedFields = previousTransaction
+                    ? TRACKED_TRANSACTION_FIELDS.filter(field => String(previousTransaction[field] ?? '') !== String(transaction[field] ?? ''))
+                    : [];
                 queryClient.setQueryData<Transaction[]>(key, (oldData = []) => {
                     return oldData.map(oldTransaction => {
                         if (oldTransaction?.id === transaction.id) {
@@ -84,6 +102,15 @@ const useTransactions = ({ showRecent, id }: useTransactionsProps) => {
                         return oldTransaction
                     })
                 })
+                // Pendo: transaction edit saved successfully via PUT /api/transactions/:id
+                trackEvent('transaction_updated', {
+                    transaction_id: transaction.id ?? 'unknown',
+                    type: transaction.type,
+                    amount: Number(transaction.amount),
+                    categoryId: transaction.categoryId,
+                    walletId: transaction.walletId,
+                    changed_fields: [...changedFields]
+                });
             }
         }
     });
