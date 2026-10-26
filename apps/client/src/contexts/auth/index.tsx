@@ -3,6 +3,7 @@ import { PATHS } from "@config/constants/paths";
 import { getUser, login, logout, signup } from "@lib/auth";
 import { ContextType } from "@lib/types/contexts";
 import { Category } from "@lib/types/resource-types";
+import { trackEvent } from "@utils/analytics";
 import { isAxiosError } from "axios";
 import { ReactNode, createContext, useState } from "react";
 import { useMutation, useQuery } from "react-query";
@@ -25,6 +26,19 @@ type Props = {
 }
 
 
+type AuthMode = 'login' | 'signup';
+
+// Pendo: report a rejected login/signup request without any credentials, only a sanitized reason
+const trackAuthenticationFailed = (authMode: AuthMode, error: unknown) => {
+    const message: unknown = isAxiosError(error) ? error.response?.data?.message : undefined;
+    const errorMessage = Array.isArray(message) ? message.join(', ') : typeof message === 'string' ? message : 'Something went wrong!';
+    trackEvent('authentication_failed', {
+        auth_mode: authMode,
+        error_message: errorMessage.slice(0, 100),
+        status_code: isAxiosError(error) ? error.response?.status ?? 0 : 0
+    });
+}
+
 export const AuthContext = createContext<ContextType | null>(null);
 
 const AuthProvider = ({ children }: Props) => {
@@ -40,7 +54,7 @@ const AuthProvider = ({ children }: Props) => {
     const { isLoading } = useQuery('auth/me', getUser, {
         onSettled(response) {
             if (response?.data) {
-                const { organization: { category, ...organization }, ...user } = response?.data;
+                const { organization: { category, ...organization }, ...user } = response.data;
                 setUser({
                     ...user,
                     categories: category,
@@ -62,10 +76,16 @@ const AuthProvider = ({ children }: Props) => {
         onSettled(response) {
             const data = response?.data.user;
             if (data) {
+                // Pendo: account successfully created (fires before redirect to login)
+                trackEvent('signup_completed', {
+                    organizationId: data.organizationId ?? 'unknown',
+                    signup_method: 'email_password'
+                });
                 navigate(PATHS.AUTH + '?type=login')
             }
         },
         onError(error) {
+            trackAuthenticationFailed('signup', error);
             if (isAxiosError(error)) {
                 setError(error.response?.data?.message)
                 return error.response?.data?.message
@@ -84,6 +104,7 @@ const AuthProvider = ({ children }: Props) => {
             }
         },
         onError(error) {
+            trackAuthenticationFailed('login', error);
             if (isAxiosError(error)) {
                 setError(error.response?.data?.message)
                 return error.response?.data?.message
