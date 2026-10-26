@@ -24,6 +24,44 @@ type Props = {
     children: ReactNode
 }
 
+// user shape returned by /api/auth/me and /api/auth/login
+type AuthUserResponse = {
+    id: string,
+    email: string,
+    name: string,
+    avatarUrl?: string | null,
+    organizationId: string,
+    createdAt: string,
+    updatedAt: string,
+    organization: {
+        id: string,
+        name: string,
+        createdAt: string,
+        updatedAt: string
+    }
+};
+
+// Novus by Pendo: register the signed-in user and their organization
+const identifyPendoUser = (user: AuthUserResponse) => {
+    pendo.identify({
+        visitor: {
+            id: user.id,
+            email: user.email,
+            full_name: user.name,
+            avatarUrl: user.avatarUrl,
+            organizationId: user.organizationId,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
+        },
+        account: {
+            id: user.organization.id,
+            name: user.organization.name,
+            createdAt: user.organization.createdAt,
+            updatedAt: user.organization.updatedAt
+        }
+    });
+};
+
 
 export const AuthContext = createContext<ContextType | null>(null);
 
@@ -40,7 +78,8 @@ const AuthProvider = ({ children }: Props) => {
     const { isLoading } = useQuery('auth/me', getUser, {
         onSettled(response) {
             if (response?.data) {
-                const { organization: { category, ...organization }, ...user } = response?.data;
+                identifyPendoUser(response.data);
+                const { organization: { category, ...organization }, ...user } = response.data;
                 setUser({
                     ...user,
                     categories: category,
@@ -54,6 +93,7 @@ const AuthProvider = ({ children }: Props) => {
 
     const { mutate: logoutMutation, isLoading: logoutLoading } = useMutation('auth/logout', logout, {
         onSettled() {
+            pendo.clearSession?.();
             window.location.href = import.meta.env.BASE_URL
         },
     });
@@ -78,6 +118,7 @@ const AuthProvider = ({ children }: Props) => {
             const data = response?.data?.user
 
             if (data) {
+                identifyPendoUser(data);
                 setUser(data);
                 setError(null);
                 window.location.href = window.location.origin + PATHS.DASHBOARD
