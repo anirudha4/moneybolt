@@ -12,6 +12,13 @@ import 'react-day-picker/dist/style.css';
 import { AuthProvider, UIProvider } from '@contexts';
 
 
+// Novus by Pendo: boot once with an anonymous visitor; the signed-in user is identified in AuthProvider
+pendo.initialize({
+  visitor: {
+    id: ''
+  }
+});
+
 const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
